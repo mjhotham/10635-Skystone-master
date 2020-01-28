@@ -1,0 +1,4 @@
+# Referenced at C:\Users\Matthew\Downloads\10635-Skystone-master\10635-Skystone-master\TeamCode\build\intermediates\merged_manifests\debug\AndroidManifest.xml:79
+-keep class android.support.v4.app.CoreComponentFactory { <init>(); }
+# Referenced at C:\Users\Matthew\Downloads\10635-Skystone-master\10635-Skystone-master\TeamCode\build\intermediates\merged_manifests\debug\AndroidManifest.xml:79
+-keep class org.firstinspires.ftc.robotcore.internal.system.RobotApplication { <init>(); }

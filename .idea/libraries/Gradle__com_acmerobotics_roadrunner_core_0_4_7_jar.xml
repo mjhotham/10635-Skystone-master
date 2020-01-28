@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.acmerobotics.roadrunner:core:0.4.7@jar">
+    <CLASSES>
+      <root url="jar://D:/AndroidSDK/caches/modules-2/files-2.1/com.acmerobotics.roadrunner/core/0.4.7/6750ab7e3425f575b4897ba1125f058edb5eff5f/core-0.4.7.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/AndroidSDK/caches/modules-2/files-2.1/com.acmerobotics.roadrunner/core/0.4.7/cdc91981f21b3b04923497dde59ce284083b8bbe/core-0.4.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/AndroidSDK/caches/modules-2/files-2.1/com.acmerobotics.roadrunner/core/0.4.7/66b197b473383740773b7279e173800d0e0db448/core-0.4.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
