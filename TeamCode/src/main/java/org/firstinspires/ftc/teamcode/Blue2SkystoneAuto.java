@@ -28,7 +28,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
     Pose2d underBridge = new Pose2d(40, -10, Math.PI / 2);           //lift can move up here so don't break it
 
     Pose2d quickDeposit = new Pose2d(33, -47, 0);
-    Pose2d getWhateverItIsCalled = new Pose2d(30, -47, 0);  // the red or blue bumpy thingy
+    Pose2d getWhateverItIsCalled = new Pose2d(30, -47, 0);          // the foundation
 
     void turnOnIntake() {
         drive.LeftIntake.setPower(1);
@@ -43,8 +43,8 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
         sleep(200);
         drive.LeftIntake.setPower(0);
         drive.RightIntake.setPower(0);
-        drive.LeftAngle.setPosition(RobotConstants.LeftAngleGrippedBlue);
-        drive.RightAngle.setPosition(RobotConstants.RightAngleGrippedBlue);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleGrippedAuto);
+        drive.RightAngle.setPosition(RobotConstants.RightAngleGrippedAuto);
     }
 
     boolean LiftStarted = false;
@@ -101,15 +101,15 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
 
         drive.followTrajectory(drive.trajectoryBuilder().reverse().splineTo(underBridge).splineTo(quickDeposit).build());//all in reverse
 
-        lift.slideTargetIN = RobotConstants.FirstDepositTopslideTarget;  // the number you are looking for is 16
+        lift.slideTargetIN = RobotConstants.FirstDepositTopSlideTarget;
 
         lift.start(RobotConstants.FirstDepositHeight);
         //deposit first skystone
         while (lift.isBusy || drive.isBusy()) {
             if (drive.getPoseEstimate().getY() < underBridge.getY()) {//only run code after passed bridge
                 RevBulkData bulkData = drive.hub2.getBulkInputData();
-                drive.LeftAngle.setPosition(RobotConstants.LeftAngleOpenBlue);
-                drive.RightAngle.setPosition(RobotConstants.RightAngleOpenBlue);
+                drive.LeftAngle.setPosition(RobotConstants.LeftAngleOpenAuto);
+                drive.RightAngle.setPosition(RobotConstants.RightAngleOpenAuto);
                 telemetry.addData("LeftLift Encoder", bulkData.getMotorCurrentPosition(drive.LeftLift));
                 telemetry.addData("RightLift Encoder", bulkData.getMotorCurrentPosition(drive.RightLift));
                 telemetry.addData("LiftManager Target Height IN", lift.liftTargetIN);
@@ -144,22 +144,20 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
             }
             drive.update();
         }
-        //make sure this part works because if it doesn't the next part will kill it
-        //there's only so much code I'm willing to test at once
 
-        //select lines and Ctrl+/ to comment/uncomment lines without wasting time
+
         turnOffIntake();//grab
 
         drive.followTrajectory(drive.trajectoryBuilder().reverse().splineTo(underBridge).splineTo(getWhateverItIsCalled).build());//all in reverse
 
         lift.start(RobotConstants.SecondDepositHeight);
-        lift.slideTargetIN = RobotConstants.SecondDepositTopslideTarget;  // the number you are looking for is 14
+        lift.slideTargetIN = RobotConstants.SecondDepositTopSlideTarget;  // the number you are looking for is 14
         //deposit second skystone
         while (lift.isBusy || drive.isBusy()) {
             if (drive.getPoseEstimate().getY() < underBridge.getY()) {//only run code after passed bridge
                 RevBulkData bulkData = drive.hub2.getBulkInputData();
-                drive.LeftAngle.setPosition(RobotConstants.LeftAngleOpenBlue);
-                drive.RightAngle.setPosition(RobotConstants.RightAngleOpenBlue);
+                drive.LeftAngle.setPosition(RobotConstants.LeftAngleOpenAuto);
+                drive.RightAngle.setPosition(RobotConstants.RightAngleOpenAuto);
                 if (bulkData != null) {
                     lift.update(bulkData);//updates lift and slide checking for collisions
                     if (lift.SlidePositionIN > 12)

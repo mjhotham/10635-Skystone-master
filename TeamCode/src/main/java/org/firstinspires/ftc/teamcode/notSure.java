@@ -102,6 +102,7 @@ public class notSure extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
         lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
         intakeState(intakeState);
@@ -205,7 +206,7 @@ public class notSure extends LinearOpMode {
 
             if (gamepad1.x) {
                 wristRequestedPosition = RobotConstants.WristRightDepositPosition;
-                lift.slideTargetIN = RobotConstants.XTopslideTarget;
+                lift.slideTargetIN = RobotConstants.XTopSlideTarget;
                 if (lift.liftTargetIN < 8) {
                     lift.liftTargetIN = 8;
                 }
@@ -216,7 +217,7 @@ public class notSure extends LinearOpMode {
 
             if (gamepad1.y) {
                 wristRequestedPosition = RobotConstants.WristFrontDepositPosition;
-                lift.slideTargetIN = RobotConstants.YTopslideTarget;
+                lift.slideTargetIN = RobotConstants.YTopSlideTarget;
                 if (lift.liftTargetIN < 8) {
                     lift.liftTargetIN = 8;
                 }
@@ -242,10 +243,10 @@ public class notSure extends LinearOpMode {
                 PreviousGamePad1B = false;
 
 
-            if (wristRequestedPosition != -1 && lift.SlidePositionIN > 12) {//only use for positions requiring extension
+            if (wristRequestedPosition != -1 && lift.SlidePositionIN > 12) {   //only use for positions requiring extension
                 drive.Wrist.setPosition(wristRequestedPosition);
                 wristRequestedPosition = -1;
-            } else if (wristCollectionRequest && lift.SlidePositionIN < 12) {//only use for going to collection position
+            } else if (wristCollectionRequest && lift.SlidePositionIN < 12) {   //only use for going to collection position
                 drive.Wrist.setPosition(RobotConstants.WristCollectionPosition);
                 wristCollectionRequest = false;
             }
@@ -261,7 +262,7 @@ public class notSure extends LinearOpMode {
                 previousDpadUp = false;
 
 
-            if (gamepad1.left_stick_button) {                       // mason can decide if he likes this mapping
+            if (gamepad1.left_stick_button) {
                 if (!previousLeftStickButton) {
                     previousLeftStickButton = true;
                     slowMode = !slowMode;
@@ -270,7 +271,7 @@ public class notSure extends LinearOpMode {
                 previousLeftStickButton = false;
 
 
-            if (gamepad1.right_stick_button) {                      // mason can decide if he likes this mapping
+            if (gamepad1.right_stick_button) {
                 if (!previousRightStickButton) {
                     previousRightStickButton = true;
                     reverseDrivetrain = !reverseDrivetrain;
@@ -291,7 +292,7 @@ public class notSure extends LinearOpMode {
 
             drive.setMotorPowers(forward + spin + right, forward + spin - right, forward - spin + right, forward - spin - right);
 
-            boolean slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);//this is reversed, deal with it
+            boolean slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);     //this is reversed, deal with it
             if (!slideAtZero && slideSensor) {
                 drive.Elbow.setPosition(0.5);
                 drive.LeftIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -303,7 +304,9 @@ public class notSure extends LinearOpMode {
                 slideAtZero = false;
             telemetry.addData("slideAtZero", slideAtZero);
 
-            CapStoneLift.setPosition(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8));
+            if (gamepad2.left_bumper) {
+                CapStoneLift.setPosition(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8));
+            }
 
             telemetry.update();
         }
