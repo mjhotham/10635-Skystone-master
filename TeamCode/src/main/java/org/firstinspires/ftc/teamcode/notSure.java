@@ -308,6 +308,15 @@ public class notSure extends LinearOpMode {
                 CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8),.35,8));
             }
 
+            if (gamepad2.dpad_left){
+                drive.Wrist.setPosition(drive.Wrist.getPosition() + RobotConstants.WristOverRideSpeed);
+            }
+
+            if (gamepad2.dpad_right){
+                drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
+            }
+
+
             telemetry.update();
         }
     }

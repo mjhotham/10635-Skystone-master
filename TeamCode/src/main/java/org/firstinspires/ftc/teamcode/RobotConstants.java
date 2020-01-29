@@ -31,6 +31,8 @@ class RobotConstants {
   public static double GripperOpen = 1;
   public static double GripperClosed = .64;
 
+  public static double WristOverRideSpeed = .05;
+
   public static double YTopSlideTarget = 16.67;                  // Y
   public static double XTopSlideTarget = 16.67;                  // X
 

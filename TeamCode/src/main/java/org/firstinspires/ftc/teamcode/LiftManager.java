@@ -82,8 +82,8 @@ public class LiftManager {
         slideObstruction = LiftPositionIN < 8;
 
         if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
-            LeftLift.setPower(0.5);
-            RightLift.setPower(0.5);
+            LeftLift.setPower(1);
+            RightLift.setPower(1);
         } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 10) {
             LeftLift.setPower(0);
             RightLift.setPower(0);
@@ -109,13 +109,16 @@ public class LiftManager {
         } else
             isBusy = true;
 
-        if (Math.abs(SlidePositionIN - slideTargetIN) < .15 || slideObstruction) {
+        if (Math.abs(SlidePositionIN - slideTargetIN) < .15) {
             Elbow.setPosition(0.5);
         } else {
-            Elbow.setPosition(Range.clip(
-                    Range.scale(
-                            (slideTargetIN - SlidePositionIN), -1, 1, 0.2, 0.8),
-                    0.2, 0.8));
+            if (slideObstruction)
+                Elbow.setPosition(0.5);
+            else
+                Elbow.setPosition(Range.clip(
+                        Range.scale(
+                                (slideTargetIN - SlidePositionIN), -1, 1, 0.2, 0.8),
+                        0.2, 0.8));
             isBusy = true;
         }
 
