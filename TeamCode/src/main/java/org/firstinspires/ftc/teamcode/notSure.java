@@ -305,7 +305,7 @@ public class notSure extends LinearOpMode {
             telemetry.addData("slideAtZero", slideAtZero);
 
             if (gamepad2.left_bumper) {
-                CapStoneLift.setPosition(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8));
+                CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8),.35,8));
             }
 
             telemetry.update();

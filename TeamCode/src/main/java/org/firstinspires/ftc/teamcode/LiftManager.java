@@ -24,7 +24,7 @@ public class LiftManager {
     public double LiftTicksPerInch = 537.6 / (1.25 * Math.PI);     // for gobilda 19.7:1 and 1.25 inch spool
     public double SlideTicksPerInch = 360 / (1.25 * Math.PI);      // for vex optical shaft encoder and 1.25 inch spool
 
-    public double tolerance = 0.5;
+    public double tolerance = 0.25;
     public double LiftPositionIN = 0;
     public double SlidePositionIN = 0;
 
