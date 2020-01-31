@@ -11,7 +11,7 @@ class RobotConstants {
 
 
   public static double WristCollectionPosition = .11;            // Dpad_Up
-  public static double WristFrontDepositPosition = .767;         // Y
+  public static double WristFrontDepositPosition = .787;         // Y
   public static double WristRightDepositPosition = .43;          // X
     
   public static double LeftHookDisengaged = .42;
@@ -21,12 +21,12 @@ class RobotConstants {
   public static double RightHookEngaged = .62;
 
   public static double LeftAngleOpen = 0.69833;
-  public static double LeftAngleIntake = 0.71722;
-  public static double LeftAngleGripped = 0.73;
+  public static double LeftAngleIntake = 0.73;
+  public static double LeftAngleGripped = 0.745;
 
-  public static double RightAngleOpen = 0.85;
-  public static double RightAngleIntake = 0.81;
-  public static double RightAngleGripped = 0.77;
+  public static double RightAngleOpen = 0.58;
+  public static double RightAngleIntake = 0.52;
+  public static double RightAngleGripped = 0.45;
 
   public static double GripperOpen = 1;
   public static double GripperClosed = .64;
@@ -67,11 +67,11 @@ class RobotConstants {
   public static double RightHookDisengagedAuto = .32;
   public static double RightHookEngagedAuto = .62;
 
-  public static double LeftAngleGrippedAuto = 0.73;
+  public static double LeftAngleGrippedAuto = 0.745;
   public static double LeftAngleOpenAuto = 0.69833;
 
-  public static double RightAngleOpenAuto = 0.85;
-  public static double RightAngleGrippedAuto = 0.77;
+  public static double RightAngleOpenAuto = 0.58;
+  public static double RightAngleGrippedAuto = 0.45;
 
 
 
@@ -82,9 +82,8 @@ class RobotConstants {
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeRed = 0.71722;
-  public static double RightAngleIntakeRed = 0.81;
-
+  public static double LeftAngleIntakeRed = 0.73;
+  public static double RightAngleIntakeRed = 0.52;
 
 
 
@@ -95,8 +94,8 @@ class RobotConstants {
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeBlue = 0.71722;
-  public static double RightAngleIntakeBlue = 0.81;
+  public static double LeftAngleIntakeBlue = 0.73;
+  public static double RightAngleIntakeBlue = 0.52;
 
 
 }

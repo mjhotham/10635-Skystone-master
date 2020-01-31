@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
-@TeleOp
+@TeleOp(name="MasterTeleOp")
 public class notSure extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
@@ -128,7 +128,8 @@ public class notSure extends LinearOpMode {
         telemetry.addData("lift.liftObstruction", () -> lift.liftObstruction);
         telemetry.addData("wristCollectionRequest", () -> wristCollectionRequest);
         telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);
-        telemetry.addData("RightAngelPosition", () -> drive.RightAngle.getPosition());
+//        telemetry.addData("RightAngePosition", () -> drive.RightAngle.getPosition());
+//        telemetry.addData("LeftAnglePosition", () -> drive.LeftAngle.getPosition());
 
         CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
 
@@ -357,13 +358,26 @@ public class notSure extends LinearOpMode {
                 drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.y) {
-                drive.RightAngle.setPosition(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
-            }
 
-            if (gamepad2.a) {
-                drive.RightAngle.setPosition(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
-            }
+              // for diagnostic purposes
+
+//
+//            if (gamepad2.y) {
+//                drive.RightAngle.setPosition(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
+//            }
+//
+//            if (gamepad2.a) {
+//                drive.RightAngle.setPosition(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
+//            }
+//
+//            if (gamepad2.right_stick_button) {
+//                drive.LeftAngle.setPosition(drive.LeftAngle.getPosition() - RobotConstants.WristOverRideSpeed);
+//            }
+//
+//            if (gamepad2.left_stick_button) {
+//                drive.LeftAngle.setPosition(drive.LeftAngle.getPosition() + RobotConstants.WristOverRideSpeed);
+//            }
+//
 
 
             telemetry.update();
