@@ -132,7 +132,7 @@ public class LiftManager {
         SlidePositionIN = Math.PI * 1.25 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
         liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > 2;
-        slideObstruction = LiftPositionIN < 8;
+        slideObstruction = LiftPositionIN < 6.5;
 //        int LiftTarget = (int) Math.round(liftTargetIN * LiftTicksPerInch);
 
         if (override) {
@@ -149,7 +149,7 @@ public class LiftManager {
 
         } else {
 
-            if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
+            if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 7) {
                 double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
                 liftPower = 8.2 - LiftPositionIN;
@@ -166,7 +166,7 @@ public class LiftManager {
 
                 LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
                 RightLift.setPower(liftPower + Math.max(0, liftOffset));
-            } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 10) {
+            } else if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 8) {
                 LeftLift.setPower(0);
                 RightLift.setPower(0);
             } else if (smoothnessTimer.milliseconds() < 100) {

@@ -36,6 +36,8 @@ class RobotConstants {
   public static double YTopSlideTarget = 16.67;                  // Y
   public static double XTopSlideTarget = 16.67;                  // X
 
+  public static double TopSlideCapstonePickupPosition = 10.5;
+
   public static double OutTakePower = -1;                        // may need to change this to avoid launching penalties
 
 

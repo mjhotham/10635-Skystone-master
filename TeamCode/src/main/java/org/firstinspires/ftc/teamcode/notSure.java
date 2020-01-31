@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -51,18 +52,22 @@ public class notSure extends LinearOpMode {
     }
 
     void ejectIntake() {
-        ejectRequest = true;
-        ejectTimer.reset();
         drive.Gripper.setPosition(RobotConstants.GripperOpen);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         drive.RightAngle.setPosition(RobotConstants.RightAngleIntake);
-
     }
 
-    void intakeState(int intakeState) {
-        switch (intakeState) {
+    void intakeState(int state) {
+        switch (state) {
             case -1:
                 ejectIntake();
+                if (intakeState > 0) {
+                    ejectRequest = true;
+                    ejectTimer.reset();
+                } else {
+                    drive.LeftIntake.setPower(RobotConstants.OutTakePower);
+                    drive.RightIntake.setPower(RobotConstants.OutTakePower);
+                }
                 break;
             case 0:
                 openIntake();
@@ -77,6 +82,7 @@ public class notSure extends LinearOpMode {
                 ungripWheels();
                 break;
         }
+        intakeState = state;
     }
 
     int intakeState = 0;
@@ -93,12 +99,15 @@ public class notSure extends LinearOpMode {
 
     double wristRequestedPosition = -1;
     boolean wristCollectionRequest = false;
+    int haveSomeGarbage = 0;
 
     ElapsedTime ejectTimer = new ElapsedTime();
 
     boolean ejectRequest = false;
 
     Servo CapStoneLift;
+
+    ElapsedTime garbage = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -119,7 +128,7 @@ public class notSure extends LinearOpMode {
         telemetry.addData("lift.liftObstruction", () -> lift.liftObstruction);
         telemetry.addData("wristCollectionRequest", () -> wristCollectionRequest);
         telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);
-        telemetry.addData("RightAngelPosition", ()-> drive.RightAngle.getPosition());
+        telemetry.addData("RightAngelPosition", () -> drive.RightAngle.getPosition());
 
         CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
 
@@ -131,7 +140,7 @@ public class notSure extends LinearOpMode {
                 ejectRequest = false;
             }
 
-            if (ejectRequest && ejectTimer.seconds() > .5) {
+            if (ejectRequest && ejectTimer.seconds() > .4) {
                 ejectRequest = false;
                 drive.LeftIntake.setPower(RobotConstants.OutTakePower);
                 drive.RightIntake.setPower(RobotConstants.OutTakePower);
@@ -164,8 +173,7 @@ public class notSure extends LinearOpMode {
 
                 if (gamepad1.left_bumper) {
                     if (!previousLeftBumper) {
-                        intakeState = intakeState == -1 ? 0 : -1;//open or outake
-                        intakeState(intakeState);
+                        intakeState(intakeState == -1 ? 0 : -1);//open or outake
                     }
                     previousLeftBumper = true;
                 } else {
@@ -227,6 +235,36 @@ public class notSure extends LinearOpMode {
                 intakeState(intakeState);
             }
 
+            if (gamepad2.dpad_down) {
+                haveSomeGarbage = 1;
+                intakeState(3);
+            }
+
+            switch (haveSomeGarbage) {
+                case 1:
+                    wristRequestedPosition = RobotConstants.WristRightDepositPosition;
+                    CapStoneLift.setPosition(0.2);
+                    haveSomeGarbage++;
+                    garbage.reset();
+                    lift.liftTargetIN = 7;
+                    break;
+                case 2:
+                    if (garbage.seconds() > 1) {
+                        haveSomeGarbage++;
+                        CapStoneLift.setPosition(0.5);
+                        wristRequestedPosition = RobotConstants.WristRightDepositPosition;
+                        lift.slideTargetIN = 14;
+                    }
+                    break;
+                case 3:
+                    if (wristRequestedPosition < 0) {
+                        haveSomeGarbage++;
+                        lift.slideTargetIN = RobotConstants.TopSlideCapstonePickupPosition;
+                    }
+                    break;
+                default:
+                    haveSomeGarbage = 0;
+            }
 
             if (gamepad1.b) {                 // Toggle Gripper no matter the superstructures state even though gamepad1.right_bumper is probably sufficient because of the conditions
                 if (!PreviousGamePad1B) {
@@ -306,24 +344,24 @@ public class notSure extends LinearOpMode {
             telemetry.addData("slideAtZero", slideAtZero);
 
             if (gamepad2.left_bumper) {
-                CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8),.35,.8));
-            } else {
+                CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8), .35, .8));
+            } else if (haveSomeGarbage == 0) {
                 CapStoneLift.setPosition(.5);
             }
 
-            if (gamepad2.x){
+            if (gamepad2.x) {
                 drive.Wrist.setPosition(drive.Wrist.getPosition() + RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.b){
+            if (gamepad2.b) {
                 drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.y){
+            if (gamepad2.y) {
                 drive.RightAngle.setPosition(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.a){
+            if (gamepad2.a) {
                 drive.RightAngle.setPosition(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
