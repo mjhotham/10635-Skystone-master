@@ -119,6 +119,7 @@ public class notSure extends LinearOpMode {
         telemetry.addData("lift.liftObstruction", () -> lift.liftObstruction);
         telemetry.addData("wristCollectionRequest", () -> wristCollectionRequest);
         telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);
+        telemetry.addData("RightAngelPosition", ()-> drive.RightAngle.getPosition());
 
         CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
 
@@ -305,19 +306,30 @@ public class notSure extends LinearOpMode {
             telemetry.addData("slideAtZero", slideAtZero);
 
             if (gamepad2.left_bumper) {
-                CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8),.35,8));
+                CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8),.35,.8));
+            } else {
+                CapStoneLift.setPosition(.5);
             }
 
-            if (gamepad2.dpad_left){
+            if (gamepad2.x){
                 drive.Wrist.setPosition(drive.Wrist.getPosition() + RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.dpad_right){
+            if (gamepad2.b){
                 drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
+            }
+
+            if (gamepad2.y){
+                drive.RightAngle.setPosition(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
+            }
+
+            if (gamepad2.a){
+                drive.RightAngle.setPosition(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
 
             telemetry.update();
+
         }
     }
 }

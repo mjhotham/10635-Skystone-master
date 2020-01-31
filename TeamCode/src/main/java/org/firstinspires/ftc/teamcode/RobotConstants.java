@@ -24,14 +24,14 @@ class RobotConstants {
   public static double LeftAngleIntake = 0.71722;
   public static double LeftAngleGripped = 0.73;
 
-  public static double RightAngleOpen = 0.80777;
-  public static double RightAngleIntake = 0.79333;
-  public static double RightAngleGripped = 0.74;
+  public static double RightAngleOpen = 0.85;
+  public static double RightAngleIntake = 0.81;
+  public static double RightAngleGripped = 0.77;
 
   public static double GripperOpen = 1;
   public static double GripperClosed = .64;
 
-  public static double WristOverRideSpeed = .05;
+  public static double WristOverRideSpeed = .002;
 
   public static double YTopSlideTarget = 16.67;                  // Y
   public static double XTopSlideTarget = 16.67;                  // X
@@ -68,9 +68,8 @@ class RobotConstants {
   public static double LeftAngleGrippedAuto = 0.73;
   public static double LeftAngleOpenAuto = 0.69833;
 
-  public static double RightAngleOpenAuto = 0.80777;
-  public static double RightAngleGrippedAuto = 0.74;
-
+  public static double RightAngleOpenAuto = 0.85;
+  public static double RightAngleGrippedAuto = 0.77;
 
 
 
@@ -82,8 +81,7 @@ class RobotConstants {
   // would only change these to improve the intaking of the skystones
 
   public static double LeftAngleIntakeRed = 0.71722;
-  public static double RightAngleIntakeRed = 0.79333;
-
+  public static double RightAngleIntakeRed = 0.81;
 
 
 
@@ -96,7 +94,7 @@ class RobotConstants {
   // would only change these to improve the intaking of the skystones
 
   public static double LeftAngleIntakeBlue = 0.71722;
-  public static double RightAngleIntakeBlue = 0.79333;
+  public static double RightAngleIntakeBlue = 0.81;
 
 
 }

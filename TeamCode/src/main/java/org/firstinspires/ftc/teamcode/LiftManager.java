@@ -78,13 +78,13 @@ public class LiftManager {
         LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / 537.6;
         SlidePositionIN = Math.PI * 1.25 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
-        liftObstruction = SlidePositionIN > 1;
-        slideObstruction = LiftPositionIN < 8;
+        liftObstruction = SlidePositionIN > 1 || slideTargetIN > 1;
+        slideObstruction = LiftPositionIN < 6.5;
 
-        if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
+        if (liftObstruction && liftTargetIN < 6.5 && LiftPositionIN < 6.5) {
             LeftLift.setPower(1);
             RightLift.setPower(1);
-        } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 10) {
+        } else if (liftObstruction && liftTargetIN < 6.5 && LiftPositionIN < 9) {
             LeftLift.setPower(0);
             RightLift.setPower(0);
         } else {
@@ -101,7 +101,7 @@ public class LiftManager {
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
         }
 
-        if (Math.abs(LiftPositionIN - liftTargetIN) < tolerance) {
+        if (Math.abs(LiftPositionIN - liftTargetIN) < 0.5) {
             isBusy = false;
             LeftLift.setPower(0);
             RightLift.setPower(0);
@@ -109,7 +109,7 @@ public class LiftManager {
         } else
             isBusy = true;
 
-        if (Math.abs(SlidePositionIN - slideTargetIN) < .15) {
+        if (Math.abs(SlidePositionIN - slideTargetIN) < 0.5) {
             Elbow.setPosition(0.5);
         } else {
             if (slideObstruction)
@@ -160,7 +160,7 @@ public class LiftManager {
                 double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
                 liftPower = triggerSum;
-                liftTargetIN = LiftPositionIN;
+                liftTargetIN = Math.max(LiftPositionIN, 0);
 
                 smoothnessTimer.reset();
 
@@ -178,9 +178,9 @@ public class LiftManager {
                 //LeftLift.setTargetPosition(LiftTarget);
                 //RightLift.setTargetPosition(LiftTarget);
 
-                liftPower = ((liftTargetIN == 0 ? -tolerance : liftTargetIN) - LiftPositionIN);
+                liftPower = 0.5 * ((liftTargetIN == 0 ? -tolerance : liftTargetIN) - LiftPositionIN);
 
-                if (Math.abs(LiftPositionIN - liftTargetIN) < tolerance) {
+                if (Math.abs(liftPower) < 0.1) {
                     isBusy = false;
                     liftPower = 0;
                 } else

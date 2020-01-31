@@ -192,7 +192,7 @@ public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
         }
         drive.setMotorPowers(0, 0, 0, 0);
 
-//        check up to here before adding the last part
+
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
