@@ -20,9 +20,9 @@ class RobotConstants {
   public static double RightHookDisengaged = .32;
   public static double RightHookEngaged = .62;
 
-  public static double LeftAngleOpen = 0.69833;
-  public static double LeftAngleIntake = 0.73;
-  public static double LeftAngleGripped = 0.745;
+  public static double LeftAngleOpen = 0.3;
+  public static double LeftAngleIntake = 0.353;
+  public static double LeftAngleGripped = 0.42;
 
   public static double RightAngleOpen = 0.58;
   public static double RightAngleIntake = 0.52;
@@ -67,8 +67,8 @@ class RobotConstants {
   public static double RightHookDisengagedAuto = .32;
   public static double RightHookEngagedAuto = .62;
 
-  public static double LeftAngleGrippedAuto = 0.745;
-  public static double LeftAngleOpenAuto = 0.69833;
+  public static double LeftAngleGrippedAuto = 0.42;
+  public static double LeftAngleOpenAuto = 0.3;
 
   public static double RightAngleOpenAuto = 0.58;
   public static double RightAngleGrippedAuto = 0.45;
@@ -78,11 +78,11 @@ class RobotConstants {
     // For RED Auto
 
 
-  public static double LeftAngleScanningRed = .67;      // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningRed = .27;      // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeRed = 0.73;
+  public static double LeftAngleIntakeRed = 0.353;
   public static double RightAngleIntakeRed = 0.52;
 
 
@@ -90,11 +90,11 @@ class RobotConstants {
     // For Blue Auto
 
 
-  public static double LeftAngleScanningBlue = .68;    // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningBlue = .27;    // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeBlue = 0.73;
+  public static double LeftAngleIntakeBlue = 0.353;
   public static double RightAngleIntakeBlue = 0.52;
 
 
