@@ -78,7 +78,7 @@ class RobotConstants {
     // For RED Auto
 
 
-  public static double LeftAngleScanningRed = .27;      // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningRed = .28;      // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 

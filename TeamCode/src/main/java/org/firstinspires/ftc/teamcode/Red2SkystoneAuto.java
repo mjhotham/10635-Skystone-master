@@ -17,8 +17,8 @@ public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
 
     Pose2d startPosition = new Pose2d(-64, 36, 0);
 
-    Pose2d firstRightPickup = new Pose2d(-36, 40.5, .56);
-    Pose2d firstCenterPickup = new Pose2d(-36, 48.5, .56);
+    Pose2d firstRightPickup = new Pose2d(-36, 39.5, .56);
+    Pose2d firstCenterPickup = new Pose2d(-36, 47, .56);
     Pose2d firstLeftPickup = new Pose2d(-36, 58, .545);
 
     Pose2d secondRightPickup = new Pose2d(-36, 18, .56);
