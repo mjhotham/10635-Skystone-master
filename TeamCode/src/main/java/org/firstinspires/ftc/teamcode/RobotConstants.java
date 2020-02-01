@@ -33,8 +33,8 @@ class RobotConstants {
 
   public static double WristOverRideSpeed = .002;
 
-  public static double YTopSlideTarget = 16.67;                  // Y
-  public static double XTopSlideTarget = 16.67;                  // X
+  public static double YTopSlideTarget = 15.6;                  // Y
+  public static double XTopSlideTarget = 15.6;                  // X
 
   public static double TopSlideCapstonePickupPosition = 10.5;
 
