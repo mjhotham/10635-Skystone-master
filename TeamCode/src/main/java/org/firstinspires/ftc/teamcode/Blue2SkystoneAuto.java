@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.PwmControl;
 
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
@@ -14,6 +16,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
 
+//    DriveConstraints  = new DriveConstraints(30, 30, 0, Math.PI, Math.PI, 0);
 
     Pose2d startPosition = new Pose2d(64, 36, Math.PI);
 
@@ -36,6 +39,8 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
         drive.Gripper.setPosition(RobotConstants.GripperOpenAuto);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntakeBlue);
         drive.RightAngle.setPosition(RobotConstants.RightAngleIntakeBlue);
+
+
     }
 
     void turnOffIntake() {
@@ -105,7 +110,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
 
         lift.start(RobotConstants.FirstDepositHeight);
         //deposit first skystone
-        while (lift.isBusy || drive.isBusy()) {
+        while (drive.isBusy()) {
             if (drive.getPoseEstimate().getY() < underBridge.getY()) {//only run code after passed bridge
                 RevBulkData bulkData = drive.hub2.getBulkInputData();
                 drive.LeftAngle.setPosition(RobotConstants.LeftAngleOpenAuto);
@@ -126,18 +131,28 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
             }
             drive.update();
         }
-        lift.stop();
 
         drive.update();
+
+        lift.start(2.75);
+        while (lift.isBusy)
+            lift.update(drive.hub2.getBulkInputData());
+
         drive.Gripper.setPosition(RobotConstants.GripperOpenAuto);//drop first skystone
         sleep(200);
+
+        lift.start(2.75 + 6);
+        while (lift.isBusy)
+            lift.update(drive.hub2.getBulkInputData());
+
+
         drive.Wrist.setPosition(RobotConstants.WristCollectionPositionAuto);
 
         turnOnIntake();
         lift.liftTargetIN = 0;
         lift.slideTargetIN = 0;
         drive.followTrajectory(drive.trajectoryBuilder().splineTo(underBridge).splineTo(secondStonePosition).forward(8).build());
-        while (lift.isBusy || drive.isBusy()) {
+        while (drive.isBusy()) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {
                 lift.update(bulkData);
@@ -166,18 +181,25 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
             }
             drive.update();
         }
-        drive.Gripper.setPosition(RobotConstants.GripperOpenAuto);
+
         drive.LeftHook.setPosition(RobotConstants.LeftHookEngagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookEngagedAuto);
         sleep(500);
         drive.Wrist.setPosition(RobotConstants.WristCollectionPositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().forward(30).build());
-        lift.liftTargetIN = 0;
-        lift.slideTargetIN = 0;
+
+        lift.liftTargetIN = 6.6 - 4;
+//        lift.slideTargetIN = 0;
+
         while (drive.isBusy()) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {
                 lift.update(bulkData);
+
+                if (lift.LiftPositionIN < 6.6 - 3 && lift.liftTargetIN == 6.6 - 4) {
+                    lift.liftTargetIN = 6.6 + 10;
+                    drive.Gripper.setPosition(RobotConstants.GripperOpenAuto);
+                }
             }
             drive.update();
         }
@@ -187,6 +209,11 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {
                 lift.update(bulkData);
+
+                if (lift.LiftPositionIN < 6.6 - 3 && lift.liftTargetIN == 6.6 - 4) {
+                    lift.liftTargetIN = 6.6 + 10;
+                    drive.Gripper.setPosition(RobotConstants.GripperOpenAuto);
+                }
             }
             drive.updatePoseEstimate();
         }
@@ -196,7 +223,8 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Current Blue Auto
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-        drive.followTrajectorySync(drive.trajectoryBuilder().back(15).forward(44).build());
+        drive.Tape.setPosition(0.8);
+        drive.followTrajectorySync(drive.trajectoryBuilder().back(15).forward(20).build());
 
 
     }

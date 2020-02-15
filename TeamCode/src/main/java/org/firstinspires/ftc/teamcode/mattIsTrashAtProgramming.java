@@ -23,7 +23,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -124,16 +123,21 @@ public class mattIsTrashAtProgramming {
             /*
              * Send some stats to the telemetry
              */
-            opmode.telemetry.addData("Values", valLeft + "   " + valMid + "   " + valRight);
-            opmode.telemetry.addData("Height", rows);
-            opmode.telemetry.addData("Width", cols);
 
-            opmode.telemetry.addData("Frame Count", webcam.getFrameCount());
-            opmode.telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
-            opmode.telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
-            opmode.telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
-            opmode.telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
-            opmode.telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
+
+
+            opmode.telemetry.addData("Values", valLeft + "   " + valMid + "   " + valRight);
+//            opmode.telemetry.addData("Position", currentPosition);   // test this to see what it does
+
+//            opmode.telemetry.addData("Height", rows);
+//            opmode.telemetry.addData("Width", cols);
+
+//            opmode.telemetry.addData("Frame Count", webcam.getFrameCount());
+//            opmode.telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
+//            opmode.telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
+//            opmode.telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
+//            opmode.telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
+//            opmode.telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
             opmode.telemetry.update();
 
             double val = Math.min(valLeft, Math.min(valMid, valRight));

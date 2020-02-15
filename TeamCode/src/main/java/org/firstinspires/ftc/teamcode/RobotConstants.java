@@ -1,11 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.Range;
+
 class RobotConstants {
 
    // This file contains most of the constants that may need to be adjusted between now and the competition.
 
    // All target values are in inches
 
+
+    // For Auto and TELEOP
+
+    public static double TapeExtendPower = .8;
+
+    public static double TapeRetractPower = .2;
+
+    public static double LiftMotorTicksPerRotationofOuputShaft = 386.3;
 
     // For TELEOP
 
@@ -20,16 +30,19 @@ class RobotConstants {
   public static double RightHookDisengaged = .32;
   public static double RightHookEngaged = .62;
 
-  public static double LeftAngleOpen = 0.3;
-  public static double LeftAngleIntake = 0.353;
-  public static double LeftAngleGripped = 0.42;
+  public static double LeftAngleOpen = Range.scale(1211,500,2500,0,1);
+  public static double LeftAngleIntake = Range.scale(1150,500,2500,0,1);
+  public static double LeftAngleGripped = Range.scale(1122,500,2500,0,1);
 
-  public static double RightAngleOpen = 0.58;
-  public static double RightAngleIntake = 0.52;
-  public static double RightAngleGripped = 0.45;
+  public static double RightAngleOpen = Range.scale(1544,500,2500,0,1);
+  public static double RightAngleIntake = Range.scale(1580,500,2500,0,1);
+  public static double RightAngleGripped = Range.scale(1633,500,2500,0,1);
 
-  public static double GripperOpen = 1;
-  public static double GripperClosed = .64;
+
+  public static double GripperOpen = .8;
+  public static double GripperClosed = .46;
+
+
 
   public static double WristOverRideSpeed = .002;
 
@@ -38,7 +51,7 @@ class RobotConstants {
 
   public static double TopSlideCapstonePickupPosition = 10.5;
 
-  public static double OutTakePower = -1;                        // may need to change this to avoid launching penalties
+  public static double OutTakePower = -.3;                        // may need to change this to avoid launching penalties
 
 
 
@@ -48,15 +61,15 @@ class RobotConstants {
   public static double FirstDepositTopSlideTarget = 16;         // make sure the first stone is completely on the foundation so the robot doesn't push it when it comes back with the second stone
   public static double SecondDepositTopSlideTarget = 14;
 
-  public static double FirstDepositHeight = 7;
-  public static double SecondDepositHeight = 12;                // lower will cause the stone to bounce less but could collide with first stone
+  public static double FirstDepositHeight = 8;
+  public static double SecondDepositHeight = 13;                // lower will cause the stone to bounce less but could collide with first stone
 
 
 
          // these are unlikely to be different from the TeleOp values but they are here just in case they need adjustment specific to auto
 
-  public static double GripperOpenAuto = 1;
-  public static double GripperClosedAuto = .64;
+  public static double GripperOpenAuto = .8;
+  public static double GripperClosedAuto = .46;
 
   public static double WristCollectionPositionAuto = .11;           
   public static double WristDepositPositionAuto = .767;         
@@ -67,35 +80,36 @@ class RobotConstants {
   public static double RightHookDisengagedAuto = .32;
   public static double RightHookEngagedAuto = .62;
 
-  public static double LeftAngleGrippedAuto = 0.42;
-  public static double LeftAngleOpenAuto = 0.3;
+  public static double LeftAngleGrippedAuto = Range.scale(1122,500,2500,0,1);
+  public static double LeftAngleOpenAuto = Range.scale(1211,500,2500,0,1);
 
-  public static double RightAngleOpenAuto = 0.58;
-  public static double RightAngleGrippedAuto = 0.45;
-
-
-
-    // For RED Auto
+  public static double RightAngleOpenAuto = Range.scale(1544,500,2500,0,1);
+  public static double RightAngleGrippedAuto = Range.scale(1633,500,2500,0,1);
 
 
-  public static double LeftAngleScanningRed = .28;      // used in init to aim the camera at the 3 outer stones
+
+
+  // For RED Auto
+
+
+  public static double LeftAngleScanningRed = Range.scale(1211,500,2500,0,1);      // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeRed = 0.353;
-  public static double RightAngleIntakeRed = 0.52;
+  public static double LeftAngleIntakeRed = Range.scale(1150,500,2500,0,1);
+  public static double RightAngleIntakeRed = Range.scale(1580,500,2500,0,1);
 
 
 
     // For Blue Auto
 
 
-  public static double LeftAngleScanningBlue = .27;    // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningBlue = Range.scale(1211,500,2500,0,1);   // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 
-  public static double LeftAngleIntakeBlue = 0.353;
-  public static double RightAngleIntakeBlue = 0.52;
+  public static double LeftAngleIntakeBlue = Range.scale(1150,500,2500,0,1);
+  public static double RightAngleIntakeBlue = Range.scale(1580,500,2500,0,1);
 
 
 }

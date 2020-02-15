@@ -5,6 +5,9 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.PWMOutputImpl;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -36,13 +39,15 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     public ExpansionHubMotor RightLift;
     public ExpansionHubMotor LeftIntake;
     public ExpansionHubMotor RightIntake;
+
     public ExpansionHubServo Gripper;
     public ExpansionHubServo Wrist;
     public ExpansionHubServo Elbow;
     public ExpansionHubServo RightHook;
     public ExpansionHubServo LeftHook;
-    public ExpansionHubServo LeftAngle = null;
-    public ExpansionHubServo RightAngle = null;
+    public ServoImplEx LeftAngle = null;
+    public ServoImplEx RightAngle = null;
+    public ExpansionHubServo Tape;
 
     public double GripperOpen = 1;
     public double GripperClosed = .64;
@@ -78,7 +83,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     public double RightAngleGripped = 0.74;
 
     double SpoolDiameterIN = 1.25;
-    double LiftMotorTicksPerRotationofOuputShaft = 537.6;         // for gobilda 19.2:1 Motor
+    double LiftMotorTicksPerRotationofOuputShaft = 386.3;     // for gobilda 13.7:1 Motor
 
     public double LiftTicksPerInch = LiftMotorTicksPerRotationofOuputShaft / (SpoolDiameterIN * Math.PI);
 
@@ -154,11 +159,19 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
         Elbow = hardwareMap.get(ExpansionHubServo.class, "Elbow");
         LeftHook = hardwareMap.get(ExpansionHubServo.class, "LeftHook");
         RightHook = hardwareMap.get(ExpansionHubServo.class, "RightHook");
-        LeftAngle = hardwareMap.get(ExpansionHubServo.class, "LeftAngle");
-        RightAngle = hardwareMap.get(ExpansionHubServo.class, "RightAngle");
+        LeftAngle = hardwareMap.get(ServoImplEx.class, "LeftAngle");
+        RightAngle = hardwareMap.get(ServoImplEx.class, "RightAngle");
+
+        Tape = hardwareMap.get(ExpansionHubServo.class, "Tape");
+
+        LeftAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
+        RightAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
 
         LeftHook.setPosition(LeftHookDisengaged);
         RightHook.setPosition(RightHookDisengaged);
+
+        LeftAngle.setPwmDisable();
+
 
         // TODO: if desired, use setLocalizer() to change the localization method
 //        setLocalizer(new MecanumLocalizer(this, true));

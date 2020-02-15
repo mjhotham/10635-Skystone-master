@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
 import org.openftc.revextensions2.ExpansionHubServo;
 import org.openftc.revextensions2.RevBulkData;
@@ -21,7 +22,7 @@ public class LiftManager {
     public double pidPower = 0.1;
 
     // Fixed ticks per inch (big oof, really sorry about that)
-    public double LiftTicksPerInch = 537.6 / (1.25 * Math.PI);     // for gobilda 19.7:1 and 1.25 inch spool
+    public double LiftTicksPerInch = RobotConstants.LiftMotorTicksPerRotationofOuputShaft / (1.25 * Math.PI);     // for gobilda 19.7:1 and 1.25 inch spool
     public double SlideTicksPerInch = 360 / (1.25 * Math.PI);      // for vex optical shaft encoder and 1.25 inch spool
 
     public double tolerance = 0.25;
@@ -58,7 +59,7 @@ public class LiftManager {
     public void start() {
         RightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / 537.6;
+        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
         liftTargetIN = LiftPositionIN;
         LeftLift.setPower(0);
         RightLift.setPower(0);
@@ -68,6 +69,7 @@ public class LiftManager {
         RightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.liftTargetIN = liftTargetIN;
+        isBusy = true;
         LeftLift.setPower(0);
         RightLift.setPower(0);
     }
@@ -75,16 +77,20 @@ public class LiftManager {
     public void update(RevBulkData bulkData2) {
 
 
-        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / 537.6;
-        SlidePositionIN = Math.PI * 1.25 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
+        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
+        SlidePositionIN = Math.PI * 1.5 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
-        liftObstruction = SlidePositionIN > 1 || slideTargetIN > 1;
-        slideObstruction = LiftPositionIN < 6.5;
+        slideObstruction = LiftPositionIN < 8;
+        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
 
-        if (liftObstruction && liftTargetIN < 6.5 && LiftPositionIN < 6.5) {
-            LeftLift.setPower(1);
-            RightLift.setPower(1);
-        } else if (liftObstruction && liftTargetIN < 6.5 && LiftPositionIN < 9) {
+        if (liftObstruction && !(SlidePositionIN < 3 && LiftPositionIN < 3) && liftTargetIN <= 8 && LiftPositionIN < 8) {
+            double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
+
+            liftPower = 8.4 - LiftPositionIN;
+            LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
+            RightLift.setPower(liftPower + Math.max(0, liftOffset));
+
+        } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 9 && !(SlidePositionIN < 3 && LiftPositionIN < 3)) {
             LeftLift.setPower(0);
             RightLift.setPower(0);
         } else {
@@ -95,13 +101,14 @@ public class LiftManager {
 
             double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
-            liftPower = (liftTargetIN - LiftPositionIN);
+//            liftPower = (liftTargetIN - LiftPositionIN);
+            liftPower = 0.5 * ((liftTargetIN == 0 ? -0.5 : liftTargetIN) - LiftPositionIN);
 
             LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
         }
 
-        if (Math.abs(LiftPositionIN - liftTargetIN) < 0.5) {
+        if (Math.abs(LiftPositionIN - liftTargetIN) < 1) {
             isBusy = false;
             LeftLift.setPower(0);
             RightLift.setPower(0);
@@ -109,7 +116,7 @@ public class LiftManager {
         } else
             isBusy = true;
 
-        if (Math.abs(SlidePositionIN - slideTargetIN) < 0.5) {
+        if (Math.abs(SlidePositionIN - slideTargetIN) < 1) {
             Elbow.setPosition(0.5);
         } else {
             if (slideObstruction)
@@ -128,11 +135,11 @@ public class LiftManager {
 
     public void update(RevBulkData bulkData2, double triggerSum, boolean override, boolean slideOverride) {
 
-        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / 537.6;
-        SlidePositionIN = Math.PI * 1.25 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
+        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
+        SlidePositionIN = Math.PI * 1.5 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
-        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > 2;
         slideObstruction = LiftPositionIN < 6.5;
+        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
 //        int LiftTarget = (int) Math.round(liftTargetIN * LiftTicksPerInch);
 
         if (override) {
@@ -149,10 +156,10 @@ public class LiftManager {
 
         } else {
 
-            if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 7) {
+            if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
                 double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
-                liftPower = 8.2 - LiftPositionIN;
+                liftPower = 8.4 - LiftPositionIN;
                 LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
                 RightLift.setPower(liftPower + Math.max(0, liftOffset));
 
@@ -166,7 +173,7 @@ public class LiftManager {
 
                 LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
                 RightLift.setPower(liftPower + Math.max(0, liftOffset));
-            } else if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 8) {
+            } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 9) {
                 LeftLift.setPower(0);
                 RightLift.setPower(0);
             } else if (smoothnessTimer.milliseconds() < 100) {
@@ -212,7 +219,7 @@ public class LiftManager {
 
     public void updatePositions(RevBulkData bulkData2) {
 
-        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / 537.6;
+        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
         SlidePositionIN = Math.PI * 1.25 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
         liftObstruction = SlidePositionIN > 1;

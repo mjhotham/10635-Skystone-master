@@ -2,15 +2,21 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.PWMOutput;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
+
+import java.util.Locale;
 
 @TeleOp(name="MasterTeleOp")
 public class notSure extends LinearOpMode {
@@ -101,11 +107,17 @@ public class notSure extends LinearOpMode {
     boolean wristCollectionRequest = false;
     int haveSomeGarbage = 0;
 
+    boolean JustStarted = true;
+
     ElapsedTime ejectTimer = new ElapsedTime();
+
+    ElapsedTime TapeInTimer = new ElapsedTime();
 
     boolean ejectRequest = false;
 
     Servo CapStoneLift;
+
+    DistanceSensor TapeDist;
 
     ElapsedTime garbage = new ElapsedTime();
 
@@ -116,9 +128,12 @@ public class notSure extends LinearOpMode {
         lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
         intakeState(intakeState);
 
+        TapeDist = hardwareMap.get(DistanceSensor.class, "TapeColorDist");
+
         DigitalChannel zeroSwitch = hardwareMap.digitalChannel.get("ZeroSwitch");
         zeroSwitch.setMode(DigitalChannel.Mode.INPUT);
 
+        telemetry.addData("Tape Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", TapeDist.getDistance(DistanceUnit.CM)));
         telemetry.addData("intakeState", () -> intakeState);
         telemetry.addData("lift.slideTargetIN", () -> lift.slideTargetIN);
         telemetry.addData("lift.liftTargetIN", () -> lift.liftTargetIN);
@@ -133,9 +148,28 @@ public class notSure extends LinearOpMode {
 
         CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
 
+
+
         waitForStart();
+
+        drive.Tape.setPosition(RobotConstants.TapeRetractPower);
+
         while (opModeIsActive()) {
             RevBulkData bulkData2 = drive.hub2.getBulkInputData();
+
+            if (JustStarted){
+                if(gamepad2.right_trigger <= .01) {
+                    if (TapeDist.getDistance(DistanceUnit.CM) > 6 || TapeInTimer.seconds() > 15) {
+                        drive.Tape.setPosition(.5);
+                        JustStarted = false;
+                    }
+                } else {
+                    JustStarted = false;
+                }
+            } else {
+                drive.Tape.setPosition(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger),-1,1,.2,.8));
+            }
+
 
             if (intakeState != -1) {
                 ejectRequest = false;
@@ -283,6 +317,7 @@ public class notSure extends LinearOpMode {
                 PreviousGamePad1B = false;
 
 
+            //automatic wrist position stuff code I guess
             if (wristRequestedPosition != -1 && lift.SlidePositionIN > 12) {   //only use for positions requiring extension
                 drive.Wrist.setPosition(wristRequestedPosition);
                 wristRequestedPosition = -1;
@@ -291,6 +326,7 @@ public class notSure extends LinearOpMode {
                 wristCollectionRequest = false;
             }
 
+            //toggle hooks
             if (gamepad1.dpad_up) {
                 if (!previousDpadUp) {
                     previousDpadUp = true;
@@ -302,6 +338,7 @@ public class notSure extends LinearOpMode {
                 previousDpadUp = false;
 
 
+            //does anyone even use slow mode?          He should -matt
             if (gamepad1.left_stick_button) {
                 if (!previousLeftStickButton) {
                     previousLeftStickButton = true;
@@ -311,6 +348,7 @@ public class notSure extends LinearOpMode {
                 previousLeftStickButton = false;
 
 
+            //hopefully no one uses the invert drivetrain button            don't care if he does or not whatever works for him   -matt
             if (gamepad1.right_stick_button) {
                 if (!previousRightStickButton) {
                     previousRightStickButton = true;
@@ -332,18 +370,22 @@ public class notSure extends LinearOpMode {
 
             drive.setMotorPowers(forward + spin + right, forward + spin - right, forward - spin + right, forward - spin - right);
 
+            //top slide encoder reset code
             boolean slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);     //this is reversed, deal with it
             if (!slideAtZero && slideSensor) {
                 drive.Elbow.setPosition(0.5);
+                //intake wheel doesn't need encoder so it's used for the top slide encoder
                 drive.LeftIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 drive.LeftIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intakeState(intakeState);
                 slideAtZero = true;
             }
+            //wait until top slide moves more than 4 inches out before it can trigger the sensor again
             if (slideAtZero && lift.SlidePositionIN > 4 && !slideSensor)
                 slideAtZero = false;
             telemetry.addData("slideAtZero", slideAtZero);
 
+            //add manual override for top slide in case if automation fails or small adjustment is needed
             if (gamepad2.left_bumper) {
                 CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8), .35, .8));
             } else if (haveSomeGarbage == 0) {
@@ -359,23 +401,24 @@ public class notSure extends LinearOpMode {
             }
 
 
+
               // for diagnostic purposes
 
 //
 //            if (gamepad2.y) {
-//                drive.RightAngle.setPosition(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
+//                drive.RightAngle.setPulseWidthUs(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
 //            }
 //
 //            if (gamepad2.a) {
-//                drive.RightAngle.setPosition(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
+//                drive.RightAngle.setPulseWidthUs(drive.RightAngle.getPosition() - RobotConstants.WristOverRideSpeed);
 //            }
 //
 //            if (gamepad2.right_stick_button) {
-//                drive.LeftAngle.setPosition(drive.LeftAngle.getPosition() - RobotConstants.WristOverRideSpeed);
+//                drive.LeftAngle.setPulseWidthUs(drive.LeftAngle.getPosition() - RobotConstants.WristOverRideSpeed);
 //            }
 //
 //            if (gamepad2.left_stick_button) {
-//                drive.LeftAngle.setPosition(drive.LeftAngle.getPosition() + RobotConstants.WristOverRideSpeed);
+//                drive.LeftAngle.setPulseWidthUs(drive.LeftAngle.getPosition() + RobotConstants.WristOverRideSpeed);
 //            }
 //
 
