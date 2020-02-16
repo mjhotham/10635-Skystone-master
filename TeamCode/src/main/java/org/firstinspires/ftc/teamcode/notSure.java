@@ -2,16 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.PWMOutput;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
@@ -34,16 +32,17 @@ public class notSure extends LinearOpMode {
     }
 
     void turnOnIntake() {
-        drive.LeftIntake.setPower(1);
-        drive.RightIntake.setPower(1);
+
+        drive.LeftIntake.setPower(.5);
+        drive.RightIntake.setPower(.5);
         drive.Gripper.setPosition(RobotConstants.GripperOpen);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         drive.RightAngle.setPosition(RobotConstants.RightAngleIntake);
     }
 
     void gripIntake() {
-        drive.LeftIntake.setPower(0);
-        drive.RightIntake.setPower(0);
+        drive.LeftIntake.setPower(0.1);
+        drive.RightIntake.setPower(0.1);
         drive.Gripper.setPosition(RobotConstants.GripperClosed);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleGripped);
         drive.RightAngle.setPosition(RobotConstants.RightAngleGripped);
@@ -111,8 +110,6 @@ public class notSure extends LinearOpMode {
 
     ElapsedTime ejectTimer = new ElapsedTime();
 
-    ElapsedTime TapeInTimer = new ElapsedTime();
-
     boolean ejectRequest = false;
 
     Servo CapStoneLift;
@@ -124,6 +121,9 @@ public class notSure extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        telemetry.addData(">","Initializing");
+        telemetry.update();
+
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
         lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
         intakeState(intakeState);
@@ -133,7 +133,14 @@ public class notSure extends LinearOpMode {
         DigitalChannel zeroSwitch = hardwareMap.digitalChannel.get("ZeroSwitch");
         zeroSwitch.setMode(DigitalChannel.Mode.INPUT);
 
+        CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
+
+
+        telemetry.addData(">","Initialization Complete");
+        telemetry.update();
+
         telemetry.addData("Tape Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", TapeDist.getDistance(DistanceUnit.CM)));
+        telemetry.addData("Intake Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", drive.IntakeDist.getDistance(DistanceUnit.CM)));
         telemetry.addData("intakeState", () -> intakeState);
         telemetry.addData("lift.slideTargetIN", () -> lift.slideTargetIN);
         telemetry.addData("lift.liftTargetIN", () -> lift.liftTargetIN);
@@ -146,9 +153,6 @@ public class notSure extends LinearOpMode {
 //        telemetry.addData("RightAngePosition", () -> drive.RightAngle.getPosition());
 //        telemetry.addData("LeftAnglePosition", () -> drive.LeftAngle.getPosition());
 
-        CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
-
-
 
         waitForStart();
 
@@ -159,15 +163,17 @@ public class notSure extends LinearOpMode {
 
             if (JustStarted){
                 if(gamepad2.right_trigger <= .01) {
-                    if (TapeDist.getDistance(DistanceUnit.CM) > 6 || TapeInTimer.seconds() > 15) {
+                    if (TapeDist.getDistance(DistanceUnit.CM) > 6) {
                         drive.Tape.setPosition(.5);
                         JustStarted = false;
                     }
                 } else {
                     JustStarted = false;
                 }
-            } else {
+            } else if (TapeDist.getDistance(DistanceUnit.CM) < 6) {
                 drive.Tape.setPosition(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger),-1,1,.2,.8));
+            } else {
+                drive.Tape.setPosition(Range.clip(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger),-1,1,.2,.8),.5,.8));
             }
 
 
@@ -181,14 +187,15 @@ public class notSure extends LinearOpMode {
                 drive.RightIntake.setPower(RobotConstants.OutTakePower);
             }
 
-            double triggerSum = gamepad1.right_trigger - gamepad1.left_trigger;
+            double triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - (Math.abs(gamepad1.left_trigger)*gamepad1.left_trigger);
+
             if (triggerSum > 0.1 && intakeState == 2) {
                 intakeState = 3;
                 intakeState(intakeState);
             }
 
             if (gamepad2.right_bumper) {
-                drive.Elbow.setPosition(Range.scale(gamepad2.left_stick_y, -1, 1, .2, .8));
+                drive.Elbow.setPosition(Range.scale((gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y)), -1, 1, .2, .8));
                 lift.update(bulkData2, triggerSum, gamepad1.back, true);
             } else
                 lift.update(bulkData2, triggerSum, gamepad1.back, false);

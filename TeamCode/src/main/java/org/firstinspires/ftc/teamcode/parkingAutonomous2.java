@@ -20,8 +20,11 @@ public class parkingAutonomous2 extends LinearOpMode {
     boolean PreviousDpadDown = false;
     boolean PreviousDpadUp = false;
 
-
     public void runOpMode() {
+
+        telemetry.addData(">","Initializing");
+        telemetry.update();
+
         drive = new SampleMecanumDriveREVOptimized2(hardwareMap);
 
         while (!isStarted()) {  //use this for switching between red and blue sides

@@ -27,7 +27,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVeloci
  * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
  * trajectory following performance with moderate additional complexity.
  */
-public class SampleMecanumDriveREVOptimized2 extends SampleMecanumDriveBase {
+public class SampleMecanumDriveREVOptimized2 extends SampleMecanumDriveBase {      // Don't use this
 
     private ExpansionHubEx ExpansionHub1, ExpansionHub2;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;

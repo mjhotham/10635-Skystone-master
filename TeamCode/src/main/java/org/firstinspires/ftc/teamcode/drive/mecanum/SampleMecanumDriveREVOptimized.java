@@ -3,12 +3,11 @@ package org.firstinspires.ftc.teamcode.drive.mecanum;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.PWMOutputImpl;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
@@ -29,7 +28,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVeloci
  * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
  * trajectory following performance with moderate additional complexity.
  */
-public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
+public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {      // current, use it
     public ExpansionHubEx hub, hub2;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
@@ -48,6 +47,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     public ServoImplEx LeftAngle = null;
     public ServoImplEx RightAngle = null;
     public ExpansionHubServo Tape;
+    public DistanceSensor IntakeDist;
 
     public double GripperOpen = 1;
     public double GripperClosed = .64;
@@ -164,13 +164,15 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
 
         Tape = hardwareMap.get(ExpansionHubServo.class, "Tape");
 
+        IntakeDist = hardwareMap.get(DistanceSensor.class, "IntakeColorDist");
+
         LeftAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
         RightAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
 
         LeftHook.setPosition(LeftHookDisengaged);
         RightHook.setPosition(RightHookDisengaged);
 
-        LeftAngle.setPwmDisable();
+//        LeftAngle.setPwmDisable();
 
 
         // TODO: if desired, use setLocalizer() to change the localization method

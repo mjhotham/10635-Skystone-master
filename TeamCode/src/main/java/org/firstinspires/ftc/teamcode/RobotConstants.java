@@ -37,21 +37,22 @@ class RobotConstants {
   public static double RightAngleOpen = Range.scale(1544,500,2500,0,1);
   public static double RightAngleIntake = Range.scale(1580,500,2500,0,1);
   public static double RightAngleGripped = Range.scale(1633,500,2500,0,1);
+  public static double RightAngleTapePosition = Range.scale(1460,500,2500,0,1);          // makes the tape stick out as straight as possible
 
 
-  public static double GripperOpen = .8;
-  public static double GripperClosed = .46;
+  public static double GripperOpen = .87;
+  public static double GripperClosed = .55;
 
 
 
   public static double WristOverRideSpeed = .002;
 
-  public static double YTopSlideTarget = 15.6;                  // Y
+  public static double YTopSlideTarget = 15.8;                  // Y
   public static double XTopSlideTarget = 15.6;                  // X
 
   public static double TopSlideCapstonePickupPosition = 10.5;
 
-  public static double OutTakePower = -.3;                        // may need to change this to avoid launching penalties
+  public static double OutTakePower = -.4;                        // may need to change this to avoid launching penalties
 
 
 
@@ -59,17 +60,19 @@ class RobotConstants {
 
 
   public static double FirstDepositTopSlideTarget = 16;         // make sure the first stone is completely on the foundation so the robot doesn't push it when it comes back with the second stone
-  public static double SecondDepositTopSlideTarget = 14;
+  public static double SecondDepositTopSlideTarget = 16;
 
   public static double FirstDepositHeight = 8;
   public static double SecondDepositHeight = 13;                // lower will cause the stone to bounce less but could collide with first stone
 
 
 
+
+
          // these are unlikely to be different from the TeleOp values but they are here just in case they need adjustment specific to auto
 
-  public static double GripperOpenAuto = .8;
-  public static double GripperClosedAuto = .46;
+  public static double GripperOpenAuto = .7;
+  public static double GripperClosedAuto = .55;
 
   public static double WristCollectionPositionAuto = .11;           
   public static double WristDepositPositionAuto = .767;         
@@ -85,6 +88,7 @@ class RobotConstants {
 
   public static double RightAngleOpenAuto = Range.scale(1544,500,2500,0,1);
   public static double RightAngleGrippedAuto = Range.scale(1633,500,2500,0,1);
+  public static double RightAngleTapePositionAuto = Range.scale(1460,500,2500,0,1);          // makes the tape stick out as straight as possible
 
 
 
@@ -104,7 +108,7 @@ class RobotConstants {
     // For Blue Auto
 
 
-  public static double LeftAngleScanningBlue = Range.scale(1211,500,2500,0,1);   // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningBlue = Range.scale(1260,500,2500,0,1);   // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 

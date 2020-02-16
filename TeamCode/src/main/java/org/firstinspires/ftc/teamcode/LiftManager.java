@@ -56,6 +56,13 @@ public class LiftManager {
         RightLift.setPower(0);
     }
 
+    public void reset() {
+        RightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void start() {
         RightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -81,16 +88,16 @@ public class LiftManager {
         SlidePositionIN = Math.PI * 1.5 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
         slideObstruction = LiftPositionIN < 8;
-        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
+        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (LiftPositionIN < 5 ? 4 : 1);
 
-        if (liftObstruction && !(SlidePositionIN < 3 && LiftPositionIN < 3) && liftTargetIN <= 8 && LiftPositionIN < 8) {
+        if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8.3) {
             double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
             liftPower = 8.4 - LiftPositionIN;
             LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
 
-        } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 9 && !(SlidePositionIN < 3 && LiftPositionIN < 3)) {
+        } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 11) {
             LeftLift.setPower(0);
             RightLift.setPower(0);
         } else {
@@ -108,15 +115,9 @@ public class LiftManager {
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
         }
 
-        if (Math.abs(LiftPositionIN - liftTargetIN) < 1) {
-            isBusy = false;
-            LeftLift.setPower(0);
-            RightLift.setPower(0);
-            liftPower = pidPower;
-        } else
-            isBusy = true;
+        isBusy = Math.abs(LiftPositionIN - liftTargetIN) > 1 || Math.abs(SlidePositionIN - slideTargetIN) > 1;
 
-        if (Math.abs(SlidePositionIN - slideTargetIN) < 1) {
+        if (Math.abs(SlidePositionIN - slideTargetIN) < 0.5) {
             Elbow.setPosition(0.5);
         } else {
             if (slideObstruction)
@@ -126,7 +127,6 @@ public class LiftManager {
                         Range.scale(
                                 (slideTargetIN - SlidePositionIN), -1, 1, 0.2, 0.8),
                         0.2, 0.8));
-            isBusy = true;
         }
 
     }
