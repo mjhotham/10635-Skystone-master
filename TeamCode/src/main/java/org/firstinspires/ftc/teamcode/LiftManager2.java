@@ -5,12 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
 import org.openftc.revextensions2.ExpansionHubServo;
 import org.openftc.revextensions2.RevBulkData;
 
-public class LiftManager {
+public class LiftManager2 {
     public ExpansionHubMotor LeftLift;
     public ExpansionHubMotor RightLift;
     public ExpansionHubMotor SlideEncoder;
@@ -29,10 +28,10 @@ public class LiftManager {
     public double LiftPositionIN = 0;
     public double SlidePositionIN = 0;
 
-    boolean liftObstruction = false;
-    boolean slideObstruction = false;
+    public boolean liftObstruction = false;
+    public boolean slideObstruction = false;
 
-    public LiftManager(ExpansionHubMotor LeftLift, ExpansionHubMotor RightLift, ExpansionHubServo Elbow, ExpansionHubMotor slideEncoder) {
+    public LiftManager2(ExpansionHubMotor LeftLift, ExpansionHubMotor RightLift, ExpansionHubServo Elbow, ExpansionHubMotor slideEncoder) {
         this.LeftLift = LeftLift;
         this.RightLift = RightLift;
         this.Elbow = Elbow;
@@ -131,16 +130,27 @@ public class LiftManager {
 
     }
 
-    ElapsedTime smoothnessTimer = new ElapsedTime();
+    double liftPgain = 0.5;    //up and down hold tuning, times inches
+    double liftOffsetPgain = 0.5;   //left and right tuning, times inches
+    double minimumLiftMovementHeight = 6.5;
+    double minimumLiftMovementTarget = 8;
+    double liftHeightTolerance = 1;
 
     public void update(RevBulkData bulkData2, double triggerSum, boolean override, boolean slideOverride) {
 
         LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
         SlidePositionIN = Math.PI * 1.5 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
 
-        slideObstruction = LiftPositionIN < 6.5;
+
+        slideObstruction = LiftPositionIN < minimumLiftMovementHeight;
         liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
-//        int LiftTarget = (int) Math.round(liftTargetIN * LiftTicksPerInch);
+        double effectiveLiftTarget = liftTargetIN;
+
+        if (effectiveLiftTarget == 0)
+            effectiveLiftTarget = -liftHeightTolerance;
+
+        if (liftObstruction)
+            effectiveLiftTarget = Math.max(minimumLiftMovementTarget, effectiveLiftTarget);
 
         if (override) {
             Elbow.setPosition(0.5);
@@ -156,49 +166,25 @@ public class LiftManager {
 
         } else {
 
-            if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
-                double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
+            liftPower = liftPgain * (effectiveLiftTarget - LiftPositionIN);
 
-                liftPower = 8.4 - LiftPositionIN;
-                LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
-                RightLift.setPower(liftPower + Math.max(0, liftOffset));
+            if (Math.abs(effectiveLiftTarget - LiftPositionIN) < liftHeightTolerance) {
+                isBusy = false;
+                liftPower = 0;
+            } else
+                isBusy = true;
 
-            } else if (Math.abs(triggerSum) > 0.1 && (LiftPositionIN > 0 || triggerSum > 0)) {
-                double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
-
+            if (Math.abs(triggerSum) > 0.1) {
                 liftPower = triggerSum;
-                liftTargetIN = Math.max(LiftPositionIN, 0);
-
-                smoothnessTimer.reset();
-
-                LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
-                RightLift.setPower(liftPower + Math.max(0, liftOffset));
-            } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 9) {
-                LeftLift.setPower(0);
-                RightLift.setPower(0);
-            } else if (smoothnessTimer.milliseconds() < 100) {
-                liftTargetIN = LiftPositionIN;
-                LeftLift.setPower(0);
-                RightLift.setPower(0);
-            } else {
-
-                //LeftLift.setTargetPosition(LiftTarget);
-                //RightLift.setTargetPosition(LiftTarget);
-
-                liftPower = 0.5 * ((liftTargetIN == 0 ? -tolerance : liftTargetIN) - LiftPositionIN);
-
-                if (Math.abs(liftPower) < 0.1) {
-                    isBusy = false;
-                    liftPower = 0;
-                } else
-                    isBusy = true;
-
-                double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
-
-                LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
-                RightLift.setPower(liftPower + Math.max(0, liftOffset));
-
+                liftTargetIN = LiftPositionIN + 0.1 * triggerSum;
             }
+
+            double liftOffsetIN = Math.PI * 1.25 * (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
+            double liftOffset = liftOffsetPgain * liftOffsetIN;
+
+            LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
+            RightLift.setPower(liftPower + Math.max(0, liftOffset));
+
 
             if (slideOverride) {
                 slideTargetIN = SlidePositionIN;
@@ -214,16 +200,6 @@ public class LiftManager {
                 }
             }
         }
-
-    }
-
-    public void updatePositions(RevBulkData bulkData2) {
-
-        LiftPositionIN = Math.PI * 1.25 * Math.max(LeftLift.getCurrentPosition(), RightLift.getCurrentPosition()) / RobotConstants.LiftMotorTicksPerRotationofOuputShaft;
-        SlidePositionIN = Math.PI * 1.5 * bulkData2.getMotorCurrentPosition(SlideEncoder) / 360;
-
-        liftObstruction = SlidePositionIN > 1;
-        slideObstruction = LiftPositionIN < 8;
 
     }
 }

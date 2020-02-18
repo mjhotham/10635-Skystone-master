@@ -9,7 +9,7 @@ import org.openftc.revextensions2.RevBulkData;
 
 
 @Autonomous(name="Red 2 Stone Stacking Auto")
-public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Blue Auto
+public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Red Auto?
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
@@ -18,13 +18,13 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Bl
 
     Pose2d startPosition = new Pose2d(-64, 36,0);
 
-    Pose2d firstLeftPickup = new Pose2d(-36, 40.5, .58);
+    Pose2d firstLeftPickup = new Pose2d(-36, 58, .545);
     Pose2d firstCenterPickup = new Pose2d(-36, 48.5, .56);
-    Pose2d firstRightPickup = new Pose2d(-36, 58, .545);
+    Pose2d firstRightPickup = new Pose2d(-36, 40.5, .58);
 
-    Pose2d secondLeftPickup = new Pose2d(-36, 18, .56);
+    Pose2d secondLeftPickup = new Pose2d(-36, 35, .55);
     Pose2d secondCenterPickup = new Pose2d(-36, 27, .56);
-    Pose2d secondRightPickup = new Pose2d(-36, 35, .55);
+    Pose2d secondRightPickup = new Pose2d(-36, 18, .56);
 
     Pose2d underBridge = new Pose2d(-40, -10, Math.PI / 2);           //lift can move up here so don't break it
 
@@ -228,11 +228,10 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Bl
         }
         drive.setMotorPowers(0, 0, 0, 0);
 
-
+        drive.Tape.setPosition(RobotConstants.TapeExtendPower);
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-        drive.Tape.setPosition(0.8);
         drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).forward(25).build());
 
@@ -246,6 +245,13 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Bl
             drive.update();
             telemetry.update();
         }
+
+        drive.setMotorPowers(1, 1, -1, -1);
+        while (drive.getPoseEstimate().getHeading() > ((Math.PI / 2) - .5)){
+            drive.updatePoseEstimate();
+            telemetry.update();
+        }
+        drive.setMotorPowers(0, 0, 0, 0);
 
     }
 }

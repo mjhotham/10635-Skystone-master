@@ -11,11 +11,13 @@ class RobotConstants {
 
     // For Auto and TELEOP
 
-    public static double TapeExtendPower = .8;
+  public static double TapeExtendPower = .8;
 
-    public static double TapeRetractPower = .2;
+  public static double TapeRetractPower = .2;
 
-    public static double LiftMotorTicksPerRotationofOuputShaft = 386.3;
+  public static double LiftMotorTicksPerRotationofOuputShaft = 386.3;
+
+  public static double TopSlideMinMovementHeight = 8; // Placeholder Value
 
     // For TELEOP
 
@@ -30,20 +32,22 @@ class RobotConstants {
   public static double RightHookDisengaged = .32;
   public static double RightHookEngaged = .62;
 
+
   public static double LeftAngleOpen = Range.scale(1211,500,2500,0,1);
+  public static double LeftAngleOuttake = Range.scale(1170,500,2500,0,1);
   public static double LeftAngleIntake = Range.scale(1150,500,2500,0,1);
   public static double LeftAngleGripped = Range.scale(1122,500,2500,0,1);
 
+
   public static double RightAngleOpen = Range.scale(1544,500,2500,0,1);
+  public static double RightAngleOuttake = Range.scale(1560,500,2500,0,1);
   public static double RightAngleIntake = Range.scale(1580,500,2500,0,1);
   public static double RightAngleGripped = Range.scale(1633,500,2500,0,1);
+
   public static double RightAngleTapePosition = Range.scale(1460,500,2500,0,1);          // makes the tape stick out as straight as possible
 
-
   public static double GripperOpen = .87;
-  public static double GripperClosed = .55;
-
-
+  public static double GripperClosed = .45;
 
   public static double WristOverRideSpeed = .002;
 
@@ -51,6 +55,8 @@ class RobotConstants {
   public static double XTopSlideTarget = 15.6;                  // X
 
   public static double TopSlideCapstonePickupPosition = 10.5;
+
+  public static double LiftCapstonePickupHeight = 8;  // placeholder value
 
   public static double OutTakePower = -.4;                        // may need to change this to avoid launching penalties
 
@@ -72,7 +78,7 @@ class RobotConstants {
          // these are unlikely to be different from the TeleOp values but they are here just in case they need adjustment specific to auto
 
   public static double GripperOpenAuto = .7;
-  public static double GripperClosedAuto = .55;
+  public static double GripperClosedAuto = .5;
 
   public static double WristCollectionPositionAuto = .11;           
   public static double WristDepositPositionAuto = .767;         
@@ -92,7 +98,6 @@ class RobotConstants {
 
 
 
-
   // For RED Auto
 
 
@@ -108,7 +113,7 @@ class RobotConstants {
     // For Blue Auto
 
 
-  public static double LeftAngleScanningBlue = Range.scale(1260,500,2500,0,1);   // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningBlue = Range.scale(1260,500,2500,0,1);     // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 

@@ -225,12 +225,11 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Blue Stacking Auto
             telemetry.update();
         }
 
-        drive.Tape.setPosition(0.8);
+        drive.Tape.setPosition(RobotConstants.TapeExtendPower);
         drive.setMotorPowers(0, 0, 0, 0);
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-
         drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).forward(30).build());
 

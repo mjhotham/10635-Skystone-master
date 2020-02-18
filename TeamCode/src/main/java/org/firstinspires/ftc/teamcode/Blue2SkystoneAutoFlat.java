@@ -228,11 +228,10 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
         }
         drive.setMotorPowers(0, 0, 0, 0);
 
-
+        drive.Tape.setPosition(RobotConstants.TapeExtendPower);
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-        drive.Tape.setPosition(0.8);
         drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).forward(25).build());
 

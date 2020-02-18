@@ -21,8 +21,7 @@ public class notSure extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
-
-
+    
     void openIntake() {
         drive.LeftIntake.setPower(0);
         drive.RightIntake.setPower(0);
@@ -58,8 +57,8 @@ public class notSure extends LinearOpMode {
 
     void ejectIntake() {
         drive.Gripper.setPosition(RobotConstants.GripperOpen);
-        drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
-        drive.RightAngle.setPosition(RobotConstants.RightAngleIntake);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleOuttake);
+        drive.RightAngle.setPosition(RobotConstants.RightAngleOuttake);
     }
 
     void intakeState(int state) {
@@ -134,7 +133,6 @@ public class notSure extends LinearOpMode {
         zeroSwitch.setMode(DigitalChannel.Mode.INPUT);
 
         CapStoneLift = hardwareMap.get(Servo.class, "CapStoneLift");
-
 
         telemetry.addData(">","Initialization Complete");
         telemetry.update();
