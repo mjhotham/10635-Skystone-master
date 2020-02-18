@@ -156,7 +156,7 @@ public class LiftManager {
 
         } else {
 
-            if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 8) {
+            if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 7) {
                 double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
                 liftPower = 8.4 - LiftPositionIN;

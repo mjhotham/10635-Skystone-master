@@ -47,7 +47,7 @@ class RobotConstants {
   public static double RightAngleTapePosition = Range.scale(1460,500,2500,0,1);          // makes the tape stick out as straight as possible
 
   public static double GripperOpen = .87;
-  public static double GripperClosed = .45;
+  public static double GripperClosed = .5;
 
   public static double WristOverRideSpeed = .002;
 
@@ -58,7 +58,7 @@ class RobotConstants {
 
   public static double LiftCapstonePickupHeight = 8;  // placeholder value
 
-  public static double OutTakePower = -.4;                        // may need to change this to avoid launching penalties
+  public static double OutTakePower = -.18;                        // may need to change this to avoid launching penalties
 
 
 

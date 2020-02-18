@@ -21,7 +21,7 @@ public class notSure extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
-    
+
     void openIntake() {
         drive.LeftIntake.setPower(0);
         drive.RightIntake.setPower(0);
@@ -40,8 +40,8 @@ public class notSure extends LinearOpMode {
     }
 
     void gripIntake() {
-        drive.LeftIntake.setPower(0.1);
-        drive.RightIntake.setPower(0.1);
+        drive.LeftIntake.setPower(0.05);
+        drive.RightIntake.setPower(0.05);
         drive.Gripper.setPosition(RobotConstants.GripperClosed);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleGripped);
         drive.RightAngle.setPosition(RobotConstants.RightAngleGripped);
