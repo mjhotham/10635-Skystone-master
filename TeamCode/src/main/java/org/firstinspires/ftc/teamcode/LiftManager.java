@@ -159,7 +159,7 @@ public class LiftManager {
             if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 7) {
                 double liftOffset = (bulkData2.getMotorCurrentPosition(LeftLift) - bulkData2.getMotorCurrentPosition(RightLift)) / (LeftLift.getMotorType().getTicksPerRev());
 
-                liftPower = 8.4 - LiftPositionIN;
+                liftPower = 7.4 - LiftPositionIN;
                 LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
                 RightLift.setPower(liftPower + Math.max(0, liftOffset));
 
@@ -173,7 +173,7 @@ public class LiftManager {
 
                 LeftLift.setPower(liftPower + Math.max(0, -liftOffset));
                 RightLift.setPower(liftPower + Math.max(0, liftOffset));
-            } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 9) {
+            } else if (liftObstruction && liftTargetIN <= 7 && LiftPositionIN < 9) {
                 LeftLift.setPower(0);
                 RightLift.setPower(0);
             } else if (smoothnessTimer.milliseconds() < 100) {

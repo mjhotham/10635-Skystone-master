@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
+
 import java.util.Locale;
 
 @TeleOp(name="MasterTeleOp")
@@ -32,16 +33,16 @@ public class notSure extends LinearOpMode {
 
     void turnOnIntake() {
 
-        drive.LeftIntake.setPower(.5);
-        drive.RightIntake.setPower(.5);
+        drive.LeftIntake.setPower(RobotConstants.TeleInakePower);
+        drive.RightIntake.setPower(RobotConstants.TeleInakePower);
         drive.Gripper.setPosition(RobotConstants.GripperOpen);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         drive.RightAngle.setPosition(RobotConstants.RightAngleIntake);
     }
 
     void gripIntake() {
-        drive.LeftIntake.setPower(0.05);
-        drive.RightIntake.setPower(0.05);
+        drive.LeftIntake.setPower(RobotConstants.TeleHoldingPower);
+        drive.RightIntake.setPower(RobotConstants.TeleHoldingPower);
         drive.Gripper.setPosition(RobotConstants.GripperClosed);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleGripped);
         drive.RightAngle.setPosition(RobotConstants.RightAngleGripped);
@@ -275,6 +276,13 @@ public class notSure extends LinearOpMode {
                 intakeState(intakeState);
             }
 
+
+            if (intakeState == 1 && drive.IntakeDist.getDistance(DistanceUnit.CM) < 6){
+                intakeState = 2;
+                intakeState(intakeState);
+            }
+
+
             if (gamepad2.dpad_down) {
                 haveSomeGarbage = 1;
                 intakeState(3);
@@ -405,6 +413,9 @@ public class notSure extends LinearOpMode {
                 drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
+            if (gamepad2.y && lift.SlidePositionIN > 12){
+                lift.slideTargetIN = LeanCompensator.getTheThing(lift.LiftPositionIN);
+            }
 
 
               // for diagnostic purposes

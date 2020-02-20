@@ -17,7 +17,7 @@ class RobotConstants {
 
   public static double LiftMotorTicksPerRotationofOuputShaft = 386.3;
 
-  public static double TopSlideMinMovementHeight = 8; // Placeholder Value
+//  public static double TopSlideMinMovementHeight = 8; // Placeholder Value
 
     // For TELEOP
 
@@ -56,9 +56,22 @@ class RobotConstants {
 
   public static double TopSlideCapstonePickupPosition = 10.5;
 
-  public static double LiftCapstonePickupHeight = 8;  // placeholder value
+//  public static double LiftCapstonePickupHeight = 8;  // placeholder value
 
   public static double OutTakePower = -.18;                        // may need to change this to avoid launching penalties
+
+  public static double TeleInakePower = .5;
+
+  public static double TeleHoldingPower = .05;
+
+
+  // used fot lean correction code
+
+  public static double[] LeanLiftPositions =     {0,  14.404, 17.8,    21.439,  25.57,   28.6,  32.4,   35.9,   38.9,   41.9};   // lift heights in inches
+
+  public static double[] LeanTopSlidePositions = {16, 16.768, 16.8467, 17.0955, 17.2656, 17.6, 17.318, 17.488, 18.064, 18.28};   // TopSlide positions in inches
+
+
 
 
 
@@ -77,7 +90,7 @@ class RobotConstants {
 
          // these are unlikely to be different from the TeleOp values but they are here just in case they need adjustment specific to auto
 
-  public static double GripperOpenAuto = .7;
+  public static double GripperOpenAuto = .87;
   public static double GripperClosedAuto = .5;
 
   public static double WristCollectionPositionAuto = .11;           
