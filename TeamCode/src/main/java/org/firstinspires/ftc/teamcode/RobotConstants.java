@@ -22,7 +22,7 @@ class RobotConstants {
     // For TELEOP
 
 
-  public static double WristCollectionPosition = .11;            // Dpad_Up
+  public static double WristCollectionPosition = .12;            // Dpad_Down
   public static double WristFrontDepositPosition = .787;         // Y
   public static double WristRightDepositPosition = .43;          // X
     
@@ -69,9 +69,7 @@ class RobotConstants {
 
   public static double[] LeanLiftPositions =     {0,  14.404, 17.8,    21.439,  25.57,   28.6,  32.4,   35.9,   38.9,   41.9};   // lift heights in inches
 
-  public static double[] LeanTopSlidePositions = {16, 16.768, 16.8467, 17.0955, 17.2656, 17.6, 17.318, 17.488, 18.064, 18.28};   // TopSlide positions in inches
-
-
+  public static double[] LeanTopSlidePositions = {16, 16.768, 16.8467, 17.0955, 17.2656, 17.6,  17.318, 17.488, 18.064, 18.28};   // TopSlide positions in inches
 
 
 
@@ -93,7 +91,7 @@ class RobotConstants {
   public static double GripperOpenAuto = .87;
   public static double GripperClosedAuto = .5;
 
-  public static double WristCollectionPositionAuto = .11;           
+  public static double WristCollectionPositionAuto = .12;
   public static double WristDepositPositionAuto = .767;         
     
   public static double LeftHookDisengagedAuto = .42;

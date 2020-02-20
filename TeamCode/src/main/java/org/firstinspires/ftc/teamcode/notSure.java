@@ -180,7 +180,7 @@ public class notSure extends LinearOpMode {
                 ejectRequest = false;
             }
 
-            if (ejectRequest && ejectTimer.seconds() > .4) {
+            if (ejectRequest && ejectTimer.seconds() > .35) {
                 ejectRequest = false;
                 drive.LeftIntake.setPower(RobotConstants.OutTakePower);
                 drive.RightIntake.setPower(RobotConstants.OutTakePower);
@@ -199,7 +199,7 @@ public class notSure extends LinearOpMode {
             } else
                 lift.update(bulkData2, triggerSum, gamepad1.back, false);
 
-            if (lift.slideTargetIN < 3 && lift.liftTargetIN < 6) {//code only active while slide and lift really close
+            if (lift.slideTargetIN < 3 && lift.liftTargetIN < 6) { //code only active while slide and lift really close
 
                 if (gamepad1.right_bumper) {
                     if (!previousRightBumper) {
@@ -418,8 +418,7 @@ public class notSure extends LinearOpMode {
             }
 
 
-              // for diagnostic purposes
-
+              // for finding servo values
 //
 //            if (gamepad2.y) {
 //                drive.RightAngle.setPulseWidthUs(drive.RightAngle.getPosition() + RobotConstants.WristOverRideSpeed);
@@ -437,7 +436,6 @@ public class notSure extends LinearOpMode {
 //                drive.LeftAngle.setPulseWidthUs(drive.LeftAngle.getPosition() + RobotConstants.WristOverRideSpeed);
 //            }
 //
-
 
             telemetry.update();
 
