@@ -291,7 +291,7 @@ public class StateBlueSidebySideAuto extends LinearOpMode {
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
         drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
-        drive.followTrajectory(drive.trajectoryBuilder().back(15).lineTo(new Vector2d(drive.getPoseEstimate().getX() - 20, drive.getPoseEstimate().getY() + 10), new SplineInterpolator(Math.PI / 2, (Math.PI / 2) + .1)).build());   // almost works, need to have constant pi/2 heading during the move.
+        drive.followTrajectory(drive.trajectoryBuilder().back(15).lineTo(new Vector2d(drive.getPoseEstimate().getX() - 12, drive.getPoseEstimate().getY() + 10), new SplineInterpolator(Math.PI / 2, (Math.PI / 2) + .09)).build());   // almost works, need to have constant pi/2 heading during the move.
 
         drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         lift.slideTargetIN = 0;
