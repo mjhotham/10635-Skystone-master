@@ -6,14 +6,14 @@ public class LeanCompensator {
         return Math.abs(n-x1) < Math.abs(n-x2) ? y1 : y2;
     }
 
-    public static double getTheThing(double input) {
+    public static double getTheThing(double input) {   //great name
         input *= 1.0;
         final double[] inputs = RobotConstants.LeanLiftPositions;
         final double[] outputs = RobotConstants.LeanTopSlidePositions;
 
         if (inputs.length != outputs.length)
             try {
-                throw new Exception("the number of inputs and outputs for the slide/lift tilt thing need to match");
+                throw new Exception("the number of inputs and outputs for the slide/lift tilt compensator need to match");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
@@ -9,7 +8,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous(name="Blue 2 Stone Stacking Auto")
+// @Autonomous(name="Blue 2 Stone Stacking Auto")
 public class Blue2SkystoneAuto extends LinearOpMode {     // Blue Stacking Auto
 
     SampleMecanumDriveREVOptimized drive;
@@ -18,6 +17,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Blue Stacking Auto
 //    DriveConstraints  = new DriveConstraints(30, 30, 0, Math.PI, Math.PI, 0);
 
     Pose2d startPosition = new Pose2d(64, 36, Math.PI);
+
     Pose2d firstLeftPickup = new Pose2d(36, 40.5, Math.PI - .58);
     Pose2d firstCenterPickup = new Pose2d(36, 48.5, Math.PI - .56);
     Pose2d firstRightPickup = new Pose2d(36, 58, Math.PI - .545);
@@ -62,7 +62,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Blue Stacking Auto
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningBlue);
-        Position pos = mattIsTrashAtProgramming.runOpMode(this);
+        Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())
             return;
 

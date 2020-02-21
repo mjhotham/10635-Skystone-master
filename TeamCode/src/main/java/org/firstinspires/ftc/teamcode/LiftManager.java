@@ -98,8 +98,8 @@ public class LiftManager {
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
 
         } else if (liftObstruction && liftTargetIN <= 8 && LiftPositionIN < 11) {
-            LeftLift.setPower(0);
-            RightLift.setPower(0);
+            LeftLift.setPower(-0.01);
+            RightLift.setPower(-0.01);
         } else {
 
             //LeftLift.setTargetPosition(LiftTarget);

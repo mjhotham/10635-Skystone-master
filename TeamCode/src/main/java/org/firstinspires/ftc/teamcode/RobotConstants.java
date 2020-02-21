@@ -112,7 +112,7 @@ class RobotConstants {
   // For RED Auto
 
 
-  public static double LeftAngleScanningRed = Range.scale(1211,500,2500,0,1);      // used in init to aim the camera at the 3 outer stones
+  public static double LeftAngleScanningRed = Range.scale(1275,500,2500,0,1);      // used in init to aim the camera at the 3 outer stones
 
   // would only change these to improve the intaking of the skystones
 

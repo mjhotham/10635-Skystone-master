@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-@TeleOp
+// @TeleOp
 public class pwmtest2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

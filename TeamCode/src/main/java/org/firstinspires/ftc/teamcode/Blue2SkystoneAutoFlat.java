@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous(name="Blue Experimental 2x2 Auto")
+// @Autonomous(name="Blue Experimental 2x2 Auto")
 public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Auto
 
     SampleMecanumDriveREVOptimized drive;
@@ -64,7 +63,7 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningBlue);
-        Position pos = mattIsTrashAtProgramming.runOpMode(this);
+        Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())
             return;
 
@@ -153,6 +152,7 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
         }
 
 
+
         drive.Wrist.setPosition(RobotConstants.WristCollectionPositionAuto);
 
         turnOnIntake();
@@ -166,7 +166,6 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
             }
             drive.update();
         }
-
 
         turnOffIntake();//grab
 

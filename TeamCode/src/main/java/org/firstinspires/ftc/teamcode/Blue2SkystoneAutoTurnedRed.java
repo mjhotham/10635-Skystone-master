@@ -8,13 +8,13 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous(name="Red 2 Stone Stacking Auto")
+@Autonomous(name="Red 2 Stone Stacking Auto might work")
 public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Red Auto?
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
 
-//    DriveConstraints  = new DriveConstraints(30, 30, 0, Math.PI, Math.PI, 0);
+
 
     Pose2d startPosition = new Pose2d(-64, 36,0);
 
@@ -63,7 +63,7 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Re
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningBlue);
-        Position pos = mattIsTrashAtProgramming.runOpMode(this);
+        Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())
             return;
 
@@ -173,6 +173,8 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Re
 
         lift.start(RobotConstants.SecondDepositHeight);
         lift.slideTargetIN = RobotConstants.SecondDepositTopSlideTarget;  // the number you are looking for is 14
+
+
         //deposit second skystone
         while (lift.isBusy || drive.isBusy()) {
             if (drive.getPoseEstimate().getY() < underBridge.getY()) {//only run code after passed bridge

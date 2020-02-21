@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous
+// @Autonomous
 public class SlippageTest extends LinearOpMode {     // Current Red Auto
 
     SampleMecanumDriveREVOptimized drive;

@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous
+// @Autonomous
 public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
 
     SampleMecanumDriveREVOptimized drive;
@@ -56,7 +55,7 @@ public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
         lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningRed);
-        Position pos = mattIsTrashAtProgramming.runOpMode(this);
+        Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())
             return;
 

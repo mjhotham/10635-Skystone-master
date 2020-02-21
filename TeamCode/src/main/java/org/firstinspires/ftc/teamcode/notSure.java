@@ -118,6 +118,8 @@ public class notSure extends LinearOpMode {
 
     ElapsedTime garbage = new ElapsedTime();
 
+//    ElapsedTime LoopTimer = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -138,8 +140,8 @@ public class notSure extends LinearOpMode {
         telemetry.addData(">","Initialization Complete");
         telemetry.update();
 
-        telemetry.addData("Tape Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", TapeDist.getDistance(DistanceUnit.CM)));
-        telemetry.addData("Intake Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", drive.IntakeDist.getDistance(DistanceUnit.CM)));
+//        telemetry.addData("Tape Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", TapeDist.getDistance(DistanceUnit.CM)));
+//        telemetry.addData("Intake Sensor Distance (cm)", ()-> String.format(Locale.US, "%.02f", drive.IntakeDist.getDistance(DistanceUnit.CM)));
         telemetry.addData("intakeState", () -> intakeState);
         telemetry.addData("lift.slideTargetIN", () -> lift.slideTargetIN);
         telemetry.addData("lift.liftTargetIN", () -> lift.liftTargetIN);
@@ -151,6 +153,8 @@ public class notSure extends LinearOpMode {
         telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);
 //        telemetry.addData("RightAngePosition", () -> drive.RightAngle.getPosition());
 //        telemetry.addData("LeftAnglePosition", () -> drive.LeftAngle.getPosition());
+//        telemetry.addData("LoopTime MS", () -> LoopTimer.milliseconds());
+//        telemetry.addData("Loop Frequency", ()-> 1000 / LoopTimer.milliseconds());
 
 
         waitForStart();
@@ -158,6 +162,9 @@ public class notSure extends LinearOpMode {
         drive.Tape.setPosition(RobotConstants.TapeRetractPower);
 
         while (opModeIsActive()) {
+
+//            LoopTimer.reset();
+
             RevBulkData bulkData2 = drive.hub2.getBulkInputData();
 
             if (JustStarted){
@@ -169,10 +176,14 @@ public class notSure extends LinearOpMode {
                 } else {
                     JustStarted = false;
                 }
-            } else if (TapeDist.getDistance(DistanceUnit.CM) < 6) {
-                drive.Tape.setPosition(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger),-1,1,.2,.8));
+            } else if((gamepad2.left_trigger) > 0.01) {
+                if (TapeDist.getDistance(DistanceUnit.CM) > 6) {
+                    drive.Tape.setPosition(Range.clip(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger), -1, 1, .2, .8), .5, .8));
+                } else {
+                    drive.Tape.setPosition(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger), -1, 1, .2, .8));
+                }
             } else {
-                drive.Tape.setPosition(Range.clip(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger),-1,1,.2,.8),.5,.8));
+                drive.Tape.setPosition(Range.scale((gamepad2.right_trigger - gamepad2.left_trigger), -1, 1, .2, .8));
             }
 
 
@@ -277,9 +288,11 @@ public class notSure extends LinearOpMode {
             }
 
 
-            if (intakeState == 1 && drive.IntakeDist.getDistance(DistanceUnit.CM) < 6){
-                intakeState = 2;
-                intakeState(intakeState);
+            if (intakeState == 1){
+                if (drive.IntakeDist.getDistance(DistanceUnit.CM) < 6) {
+                    intakeState = 2;
+                    intakeState(intakeState);
+                }
             }
 
 
@@ -413,7 +426,7 @@ public class notSure extends LinearOpMode {
                 drive.Wrist.setPosition(drive.Wrist.getPosition() - RobotConstants.WristOverRideSpeed);
             }
 
-            if (gamepad2.y && lift.SlidePositionIN > 12){
+            if (gamepad2.y && lift.SlidePositionIN > 10){
                 lift.slideTargetIN = LeanCompensator.getTheThing(lift.LiftPositionIN);
             }
 
@@ -436,6 +449,8 @@ public class notSure extends LinearOpMode {
 //                drive.LeftAngle.setPulseWidthUs(drive.LeftAngle.getPosition() + RobotConstants.WristOverRideSpeed);
 //            }
 //
+
+
 
             telemetry.update();
 

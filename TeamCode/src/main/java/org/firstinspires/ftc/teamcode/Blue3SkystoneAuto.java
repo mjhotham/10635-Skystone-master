@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
@@ -64,7 +63,7 @@ public class Blue3SkystoneAuto extends LinearOpMode {     // Experimental Auto
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningBlue);
-        Position pos = mattIsTrashAtProgramming.runOpMode(this);
+        Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())
             return;
 
