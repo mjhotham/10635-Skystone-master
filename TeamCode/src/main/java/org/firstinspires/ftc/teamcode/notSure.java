@@ -9,13 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
-
-
-import java.util.Locale;
 
 @TeleOp(name="MasterTeleOp")
 public class notSure extends LinearOpMode {
@@ -104,7 +100,7 @@ public class notSure extends LinearOpMode {
 
     double wristRequestedPosition = -1;
     boolean wristCollectionRequest = false;
-    int haveSomeGarbage = 0;
+    int capstoneState = 0;
 
     boolean JustStarted = true;
 
@@ -297,21 +293,21 @@ public class notSure extends LinearOpMode {
 
 
             if (gamepad2.dpad_down) {
-                haveSomeGarbage = 1;
+                capstoneState = 1;
                 intakeState(3);
             }
 
-            switch (haveSomeGarbage) {
+            switch (capstoneState) {
                 case 1:
                     wristRequestedPosition = RobotConstants.WristRightDepositPosition;
                     CapStoneLift.setPosition(0.2);
-                    haveSomeGarbage++;
+                    capstoneState++;
                     garbage.reset();
                     lift.liftTargetIN = 7;
                     break;
                 case 2:
                     if (garbage.seconds() > 1) {
-                        haveSomeGarbage++;
+                        capstoneState++;
                         CapStoneLift.setPosition(0.5);
                         wristRequestedPosition = RobotConstants.WristRightDepositPosition;
                         lift.slideTargetIN = 14;
@@ -319,12 +315,12 @@ public class notSure extends LinearOpMode {
                     break;
                 case 3:
                     if (wristRequestedPosition < 0) {
-                        haveSomeGarbage++;
+                        capstoneState++;
                         lift.slideTargetIN = RobotConstants.TopSlideCapstonePickupPosition;
                     }
                     break;
                 default:
-                    haveSomeGarbage = 0;
+                    capstoneState = 0;
             }
 
             if (gamepad1.b) {                 // Toggle Gripper no matter the superstructures state even though gamepad1.right_bumper is probably sufficient because of the conditions
@@ -414,7 +410,7 @@ public class notSure extends LinearOpMode {
             //add manual override for top slide in case if automation fails or small adjustment is needed
             if (gamepad2.left_bumper) {
                 CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8), .35, .8));
-            } else if (haveSomeGarbage == 0) {
+            } else if (capstoneState == 0) {
                 CapStoneLift.setPosition(.5);
             }
 
