@@ -4,11 +4,13 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.State.LiftManager;
+import org.firstinspires.ftc.teamcode.State.scanAndWaitForStart;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
 
-@Autonomous(name="Red 2 Stone Stacking Auto might work")
+// @Autonomous(name="Red 2 Stone Stacking Auto might work")
 public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Red Auto?
 
     SampleMecanumDriveREVOptimized drive;
@@ -247,6 +249,7 @@ public class Blue2SkystoneAutoTurnedRed extends LinearOpMode {     // Current Re
             drive.update();
             telemetry.update();
         }
+
 
         drive.setMotorPowers(1, 1, -1, -1);
         while (drive.getPoseEstimate().getHeading() > ((Math.PI / 2) - .5)){

@@ -116,14 +116,14 @@ public class opencvSkystoneDetector extends LinearOpMode {
     }
 
     //detection pipeline
-    static class StageSwitchingPipeline extends OpenCvPipeline
+    public static class StageSwitchingPipeline extends OpenCvPipeline
     {
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
         Mat all = new Mat();
         List<MatOfPoint> contoursList = new ArrayList<>();
 
-        enum Stage
+        public enum Stage
         {//color difference. greyscale
             detection,//includes outlines
             THRESHOLD,//b&w

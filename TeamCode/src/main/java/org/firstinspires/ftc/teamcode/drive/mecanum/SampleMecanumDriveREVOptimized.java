@@ -60,8 +60,8 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {    
     public double ElbowRetract = 0.25;
     public double ElbowExtend = 0.75;
 
-    public double WristCollectionPosition = .11;                                  // Dpad_Up
-    public double WristBackDepositPosition = .11;                                 // B
+    public double WristCollectionPosition = .12;                                  // Dpad_Up
+    //    public double WristBackDepositPosition = .11;                                 // B
     public double WristFrontDepositPosition = .767;                                  // Y
     //    public double WristLeftDepositPosition = 1;                                 // X
     public double WristRightDepositPosition = .43;                                  // A
