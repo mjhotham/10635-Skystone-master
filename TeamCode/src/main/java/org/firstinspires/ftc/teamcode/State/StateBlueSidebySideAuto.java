@@ -137,7 +137,7 @@ public class StateBlueSidebySideAuto extends LinearOpMode {
         drive.update();
         turnOffIntake(); //grab
 
-        drive.followTrajectory(drive.trajectoryBuilder().reverse().splineTo(underBridge).splineTo(firstDeposit).build());//all in reverse
+        drive.followTrajectory(drive.trajectoryBuilder().back(3).reverse().splineTo(underBridge).splineTo(firstDeposit).build());//all in reverse
 
         lift.slideTargetIN = 20.5;
 
@@ -271,6 +271,7 @@ public class StateBlueSidebySideAuto extends LinearOpMode {
         }
 
         drive.setMotorPowers(-1, -1, 1, 1);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         while (drive.getPoseEstimate().getHeading() < Math.PI / 2 || drive.getPoseEstimate().getHeading() > 3 * Math.PI / 2) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {

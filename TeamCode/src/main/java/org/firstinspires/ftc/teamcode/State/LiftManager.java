@@ -116,7 +116,7 @@ public class LiftManager {
             RightLift.setPower(liftPower + Math.max(0, liftOffset));
         }
 
-        isBusy = Math.abs(LiftPositionIN - liftTargetIN) > 1 || Math.abs(SlidePositionIN - slideTargetIN) > 1;
+        isBusy = Math.abs(LiftPositionIN - liftTargetIN) > 1 || liftObstruction;
 
         if (Math.abs(SlidePositionIN - slideTargetIN) < 0.5) {
             Elbow.setPosition(0.5);

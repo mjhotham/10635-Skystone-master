@@ -217,7 +217,8 @@ public class StateRed2StackAuto extends LinearOpMode {
             telemetry.update();
         }
 
-        drive.setMotorPowers(1, 1, -1, -1);
+        drive.setMotorPowers(0.666, 0.666, -0.666, -0.666);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         while (drive.getPoseEstimate().getHeading() > Math.PI / 2) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {

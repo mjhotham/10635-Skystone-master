@@ -269,6 +269,7 @@ public class StateRedSidebySideAuto extends LinearOpMode {
         }
 
         drive.setMotorPowers(1, 1, -1, -1);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         while (drive.getPoseEstimate().getHeading() > Math.PI / 2) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {
@@ -316,7 +317,7 @@ public class StateRedSidebySideAuto extends LinearOpMode {
             telemetry.update();
         }
 
-        sleep(2000);
+        sleep(1500);
 
 //        drive.turnSync(Math.toRadians(-10));
 

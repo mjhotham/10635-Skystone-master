@@ -109,7 +109,7 @@ public class StateBlue2StackAuto extends LinearOpMode {
         drive.update();
         turnOffIntake(); //grab
 
-        drive.followTrajectory(drive.trajectoryBuilder().reverse().splineTo(underBridge).splineTo(quickDeposit).build());  //all in reverse
+        drive.followTrajectory(drive.trajectoryBuilder().back(3).reverse().splineTo(underBridge).splineTo(quickDeposit).build());  //all in reverse
 
         lift.slideTargetIN = RobotConstants.FirstDepositTopSlideTarget;
 
@@ -196,7 +196,7 @@ public class StateBlue2StackAuto extends LinearOpMode {
         drive.RightHook.setPosition(RobotConstants.RightHookEngagedAuto);
         sleep(500);
         //todo: check the strafe direction
-        drive.followTrajectory(drive.trajectoryBuilder().forward(30).build());
+        drive.followTrajectory(drive.trajectoryBuilder().strafeRight(2).forward(30).build());
 
         lift.liftTargetIN = 6.6 - 4;
 //        lift.slideTargetIN = 0;
@@ -216,6 +216,7 @@ public class StateBlue2StackAuto extends LinearOpMode {
         }
 
         drive.setMotorPowers(-1, -1, 1, 1);
+        drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         while (drive.getPoseEstimate().getHeading() < Math.PI / 2 || drive.getPoseEstimate().getHeading() > 3 * Math.PI / 2) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {
