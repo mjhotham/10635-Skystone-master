@@ -36,13 +36,13 @@ public class RobotConstants {
   public static final double LeftAngleOpen = Range.scale(1211, 500, 2500, 0, 1);
   public static final double LeftAngleOuttake = Range.scale(1170, 500, 2500, 0, 1);
   public static final double LeftAngleIntake = Range.scale(1150, 500, 2500, 0, 1);
-  public static final double LeftAngleGripped = Range.scale(1122, 500, 2500, 0, 1);
+  public static final double LeftAngleGripped = Range.scale(1102, 500, 2500, 0, 1);
 
 
   public static final double RightAngleOpen = Range.scale(1544, 500, 2500, 0, 1);
   public static final double RightAngleOuttake = Range.scale(1560, 500, 2500, 0, 1);
   public static final double RightAngleIntake = Range.scale(1580, 500, 2500, 0, 1);
-  public static final double RightAngleGripped = Range.scale(1633, 500, 2500, 0, 1);
+  public static final double RightAngleGripped = Range.scale(1653, 500, 2500, 0, 1);
 
   public static final double RightAngleTapePosition = Range.scale(1460, 500, 2500, 0, 1);          // makes the tape stick out as straight as possible
 
@@ -54,7 +54,7 @@ public class RobotConstants {
   public static final double YTopSlideTarget = 15.8;                  // Y
   public static final double XTopSlideTarget = 15.6;                  // X
 
-  public static final double TopSlideCapstonePickupPosition = 9.25;
+  public static final double TopSlideCapstonePickupPosition = 9.5;
 
 //  public static final double LiftCapstonePickupHeight = 8;  // placeholder value
 

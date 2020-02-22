@@ -194,7 +194,7 @@ public class notSure extends LinearOpMode {
                 drive.RightIntake.setPower(RobotConstants.OutTakePower);
             }
 
-            double triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - (Math.abs(gamepad1.left_trigger)*gamepad1.left_trigger);
+            double triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.3 : 1));
 
             if (triggerSum > 0.1 && intakeState == 2) {
                 intakeState = 3;
