@@ -27,10 +27,10 @@ public class RobotConstants {
   public static final double WristRightDepositPosition = .44;          // X
 
   public static final double LeftHookDisengaged = .42;
-  public static final double LeftHookEngaged = .12;
+  public static final double LeftHookEngaged = .1;
 
   public static final double RightHookDisengaged = .32;
-  public static final double RightHookEngaged = .62;
+  public static final double RightHookEngaged = .64;
 
 
   public static final double LeftAngleOpen = Range.scale(1211, 500, 2500, 0, 1);
@@ -95,10 +95,10 @@ public class RobotConstants {
   public static final double WristDepositPositionAuto = .767;
 
   public static final double LeftHookDisengagedAuto = .42;
-  public static final double LeftHookEngagedAuto = .12;
+  public static final double LeftHookEngagedAuto = .1;
 
   public static final double RightHookDisengagedAuto = .32;
-  public static final double RightHookEngagedAuto = .62;
+  public static final double RightHookEngagedAuto = .64;
 
   public static final double LeftAngleGrippedAuto = Range.scale(1122, 500, 2500, 0, 1);
   public static final double LeftAngleOpenAuto = Range.scale(1211, 500, 2500, 0, 1);
