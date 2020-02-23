@@ -238,7 +238,7 @@ public class StateRed2StackAuto extends LinearOpMode {
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-        drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
+        drive.RightAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).lineTo(new Vector2d(drive.getPoseEstimate().getX() + 20, drive.getPoseEstimate().getY() + 10), new ConstantInterpolator(Math.PI / 2)).build());
 
         drive.Wrist.setPosition(drive.WristCollectionPosition);

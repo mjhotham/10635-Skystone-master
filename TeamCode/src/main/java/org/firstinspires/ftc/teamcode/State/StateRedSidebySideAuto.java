@@ -288,10 +288,10 @@ public class StateRedSidebySideAuto extends LinearOpMode {
         lift.stop();
         drive.LeftHook.setPosition(RobotConstants.LeftHookDisengagedAuto);
         drive.RightHook.setPosition(RobotConstants.RightHookDisengagedAuto);
-        drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
+        drive.RightAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).lineTo(new Vector2d(drive.getPoseEstimate().getX() + 20, drive.getPoseEstimate().getY() + 10), new SplineInterpolator(Math.PI / 2, (Math.PI / 2) - .1)).build());
 
-        drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
+        drive.RightAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         lift.slideTargetIN = 0;
         lift.start(0);
 
@@ -312,7 +312,7 @@ public class StateRedSidebySideAuto extends LinearOpMode {
             if (bulkData != null) {
                 lift.update(bulkData);
             }
-            drive.LeftAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
+            drive.RightAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
             drive.update();
             telemetry.update();
         }
