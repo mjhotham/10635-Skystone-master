@@ -60,7 +60,7 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
         telemetry.update();
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         lift.reset();
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
@@ -238,7 +238,7 @@ public class Blue2SkystoneAutoFlat extends LinearOpMode {     // Experimental Au
 
         lift.slideTargetIN = 0;
         lift.start(0);
-        drive.Wrist.setPosition(drive.WristCollectionPosition);
+        drive.Wrist.setPosition(RobotConstants.WristCollectionPosition);
         while (drive.isBusy()) {
             RevBulkData bulkData = drive.hub2.getBulkInputData();
             if (bulkData != null) {

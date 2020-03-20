@@ -3,19 +3,18 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized2;
+import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 // @Autonomous
 public class parkingAutonomous extends LinearOpMode {     //works but replaced with more user friendly version
-    RobotConfig2 robot = new RobotConfig2();
-    SampleMecanumDriveREVOptimized2 drive;
+    SampleMecanumDriveREVOptimized drive;
 
     int color = 1;
     int side = 1;
     int waitTime = 0;
 
     public void runOpMode() {
-        drive = new SampleMecanumDriveREVOptimized2(hardwareMap);
+        drive = new SampleMecanumDriveREVOptimized(hardwareMap);
 
         while (!isStarted()) { //use this for switching between red and blue sides
 

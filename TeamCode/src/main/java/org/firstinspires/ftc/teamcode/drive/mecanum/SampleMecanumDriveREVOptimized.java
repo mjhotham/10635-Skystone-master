@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
+
+import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
@@ -28,7 +30,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVeloci
  * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
  * trajectory following performance with moderate additional complexity.
  */
-public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {      // current, use it
+
+public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
     public ExpansionHubEx hub, hub2;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
@@ -42,52 +45,13 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {    
     public ExpansionHubServo Gripper;
     public ExpansionHubServo Wrist;
     public ExpansionHubServo Elbow;
+    public ExpansionHubServo Elbow2;
     public ExpansionHubServo RightHook;
     public ExpansionHubServo LeftHook;
     public ServoImplEx LeftAngle = null;
     public ServoImplEx RightAngle = null;
     public ExpansionHubServo Tape;
     public DistanceSensor IntakeDist;
-
-    public double GripperOpen = 1;
-    public double GripperClosed = .64;
-
-    public double ElbowCollectionPosition = .04;                                  // Dpad_up
-    public double ElbowBackLeftDepositPosition = .59;                             // B and X
-    public double ElbowFrontRightDepositPosition = .47;                           // A and Y
-
-    public double ElbowExtended = 1600;
-    public double ElbowRetract = 0.25;
-    public double ElbowExtend = 0.75;
-
-    public double WristCollectionPosition = .12;                                  // Dpad_Up
-    //    public double WristBackDepositPosition = .11;                                 // B
-    public double WristFrontDepositPosition = .767;                                  // Y
-    //    public double WristLeftDepositPosition = 1;                                 // X
-    public double WristRightDepositPosition = .43;                                  // A
-
-    public double LeftHookDisengaged = .42;                                          //tbd
-    public double LeftHookEngaged = .12;                                             // tbd
-
-    public double RightHookDisengaged = .32;                                         //tbd
-    public double RightHookEngaged = .62;                                            // tbd
-
-    public double LeftAngleOpen = 0.69833;
-    public double LeftAngleIntake = 0.71722;
-    public double LeftAngleGripped = 0.73;
-    public double LeftAngleScanningBlue = .68;
-    public double LeftAngleScanningRed = .67;
-
-    public double RightAngleOpen = 0.80777;
-    public double RightAngleIntake = 0.79333;
-    public double RightAngleGripped = 0.74;
-
-    double SpoolDiameterIN = 1.25;
-    double LiftMotorTicksPerRotationofOuputShaft = 386.3;     // for gobilda 13.7:1 Motor
-
-    public double LiftTicksPerInch = LiftMotorTicksPerRotationofOuputShaft / (SpoolDiameterIN * Math.PI);
-
-    public double MinimumElbowMovementHeightIN = 8;
 
     public SampleMecanumDriveREVOptimized(HardwareMap hardwareMap) {
         super();
@@ -114,7 +78,6 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {    
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "BackLeft");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "BackRight");
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "FrontRight");
-
 
         LeftLift = hardwareMap.get(ExpansionHubMotor.class, "LeftLift");
         RightLift = hardwareMap.get(ExpansionHubMotor.class, "RightLift");
@@ -157,6 +120,7 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {    
         Gripper = hardwareMap.get(ExpansionHubServo.class, "Gripper");
         Wrist = hardwareMap.get(ExpansionHubServo.class, "Wrist");
         Elbow = hardwareMap.get(ExpansionHubServo.class, "Elbow");
+        Elbow2 = hardwareMap.get(ExpansionHubServo.class, "Elbow2");
         LeftHook = hardwareMap.get(ExpansionHubServo.class, "LeftHook");
         RightHook = hardwareMap.get(ExpansionHubServo.class, "RightHook");
         LeftAngle = hardwareMap.get(ServoImplEx.class, "LeftAngle");
@@ -169,11 +133,13 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {    
         LeftAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
         RightAngle.setPwmRange(new PwmControl.PwmRange(500,2500,3003));
 
-        LeftHook.setPosition(LeftHookDisengaged);
-        RightHook.setPosition(RightHookDisengaged);
+        Wrist.setPwmRange(new PwmControl.PwmRange(500, 2500, 20000));
+        Gripper.setPwmRange(new PwmControl.PwmRange(500, 2500, 20000));
+
+        LeftHook.setPosition(RobotConstants.LeftHookDisengaged);
+        RightHook.setPosition(RobotConstants.RightHookDisengaged);
 
 //        LeftAngle.setPwmDisable();
-
 
         // TODO: if desired, use setLocalizer() to change the localization method
 //        setLocalizer(new MecanumLocalizer(this, true));

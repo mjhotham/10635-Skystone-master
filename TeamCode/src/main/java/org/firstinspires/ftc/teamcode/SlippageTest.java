@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
 
 
 // @Autonomous
-public class SlippageTest extends LinearOpMode {     // Current Red Auto
+public class SlippageTest extends LinearOpMode {     // Pretty sure this didn't work because it wasn't using the pids
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
@@ -21,7 +21,7 @@ public class SlippageTest extends LinearOpMode {     // Current Red Auto
     public void runOpMode() throws InterruptedException {
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
 
         lift.start(0);
         lift.stop();

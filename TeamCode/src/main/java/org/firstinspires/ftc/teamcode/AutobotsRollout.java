@@ -92,7 +92,7 @@ public class AutobotsRollout extends LinearOpMode {     // what the hell is this
 
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
 
         lift.start(0);
         lift.stop();

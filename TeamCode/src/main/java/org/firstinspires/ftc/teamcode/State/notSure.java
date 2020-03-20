@@ -14,11 +14,16 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
+import org.firstinspires.ftc.teamcode.worlds.LiftManager2;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+
 @TeleOp(name="MasterTeleOp")
 public class notSure extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
-    LiftManager lift;
+    LiftManager2 lift;
 
     void openIntake() {
         drive.LeftIntake.setPower(0);
@@ -30,8 +35,8 @@ public class notSure extends LinearOpMode {
 
     void turnOnIntake() {
 
-        drive.LeftIntake.setPower(RobotConstants.TeleInakePower);
-        drive.RightIntake.setPower(RobotConstants.TeleInakePower);
+        drive.LeftIntake.setPower(RobotConstants.TeleIntakePower);
+        drive.RightIntake.setPower(RobotConstants.TeleIntakePower);
         drive.Gripper.setPosition(RobotConstants.GripperOpen);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleIntake);
         drive.RightAngle.setPosition(RobotConstants.RightAngleIntake);
@@ -94,8 +99,10 @@ public class notSure extends LinearOpMode {
     boolean PreviousGamePad1B = false;
 
     boolean slideAtZero = false;
+    boolean slideSensor;
 
     double forward, right, spin;
+    double triggerSum;
     boolean previousLeftStickButton = false, previousRightStickButton = false, slowMode = false, reverseDrivetrain = false;
     boolean previousDpadUp = false, hooksEngaged = false;
 
@@ -123,8 +130,11 @@ public class notSure extends LinearOpMode {
         telemetry.addData(">","Initializing");
         telemetry.update();
 
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        TelemetryPacket packet = new TelemetryPacket();
+
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager2(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         intakeState(intakeState);
 
         TapeDist = hardwareMap.get(DistanceSensor.class, "TapeColorDist");
@@ -147,9 +157,13 @@ public class notSure extends LinearOpMode {
         telemetry.addData("lift.slideObstruction", () -> lift.slideObstruction);
         telemetry.addData("lift.liftObstruction", () -> lift.liftObstruction);
         telemetry.addData("wristCollectionRequest", () -> wristCollectionRequest);
-        telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);
-//        telemetry.addData("RightAngePosition", () -> drive.RightAngle.getPosition());
-//        telemetry.addData("LeftAnglePosition", () -> drive.LeftAngle.getPosition());
+        telemetry.addData("wristRequestedPosition", () -> wristRequestedPosition);    // what is the usefulness of knowing this?
+//        telemetry.addData("Elbow Position", () -> drive.Elbow.getPosition());
+//        telemetry.addData("Elbow 2 Position", () -> drive.Elbow2.getPosition());
+//        telemetry.addData("Wrist Position", () -> drive.Wrist.getPosition());
+//        telemetry.addData("Gripper Position", () -> drive.Gripper.getPosition());
+
+
 //        telemetry.addData("LoopTime MS", () -> LoopTimer.milliseconds());
 //        telemetry.addData("Loop Frequency", ()-> 1000 / LoopTimer.milliseconds());
 
@@ -164,6 +178,8 @@ public class notSure extends LinearOpMode {
 
             RevBulkData bulkData2 = drive.hub2.getBulkInputData();
 
+
+            // code for controlling Tape
             if (JustStarted){
                 if(gamepad2.right_trigger <= .01) {
                     if (TapeDist.getDistance(DistanceUnit.CM) > 6) {
@@ -184,6 +200,7 @@ public class notSure extends LinearOpMode {
             }
 
 
+
             if (intakeState != -1) {
                 ejectRequest = false;
             }
@@ -194,18 +211,24 @@ public class notSure extends LinearOpMode {
                 drive.RightIntake.setPower(RobotConstants.OutTakePower);
             }
 
-            double triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.2 : 1));
+
+            // code for manual lift movement
+            triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.2 : 1));
 
             if (triggerSum > 0.1 && intakeState == 2) {
                 intakeState = 3;
                 intakeState(intakeState);
             }
 
+
+            // code for manual topslide override
             if (gamepad2.right_bumper) {
                 drive.Elbow.setPosition(Range.scale((gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y)), -1, 1, .2, .8));
+                drive.Elbow2.setPosition(Range.scale((gamepad2.left_stick_y * Math.abs(gamepad2.left_stick_y)), -1, 1, .2, .8));
                 lift.update(bulkData2, triggerSum, gamepad1.back, true);
             } else
                 lift.update(bulkData2, triggerSum, gamepad1.back, false);
+
 
             if (lift.slideTargetIN < 3 && lift.liftTargetIN < 6) { //code only active while slide and lift really close
 
@@ -222,7 +245,7 @@ public class notSure extends LinearOpMode {
 
                 if (gamepad1.left_bumper) {
                     if (!previousLeftBumper) {
-                        intakeState(intakeState == -1 ? 0 : -1);//open or outake
+                        intakeState(intakeState == -1 ? 0 : -1);//open or outtake
                     }
                     previousLeftBumper = true;
                 } else {
@@ -317,7 +340,7 @@ public class notSure extends LinearOpMode {
                 case 3:
                     if (wristRequestedPosition < 0) {
                         capstoneState++;
-                        lift.slideTargetIN = RobotConstants.TopSlideCapstonePickupPosition;
+                        lift.slideTargetIN = RobotConstants.TopSlideCapstonePickupPositionIN;
                     }
                     break;
                 default:
@@ -361,7 +384,7 @@ public class notSure extends LinearOpMode {
                 previousDpadUp = false;
 
 
-            //does anyone even use slow mode?          He should -matt
+            //does anyone even use slow mode?          He should -matt           update - he won state with slowmode -matt
             if (gamepad1.left_stick_button) {
                 if (!previousLeftStickButton) {
                     previousLeftStickButton = true;
@@ -394,21 +417,22 @@ public class notSure extends LinearOpMode {
             drive.setMotorPowers(forward + spin + right, forward + spin - right, forward - spin + right, forward - spin - right);
 
             //top slide encoder reset code
-            boolean slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);     //this is reversed, deal with it
+            slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);
             if (!slideAtZero && slideSensor) {
                 drive.Elbow.setPosition(0.5);
+                drive.Elbow2.setPosition(0.5);
                 //intake wheel doesn't need encoder so it's used for the top slide encoder
                 drive.LeftIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 drive.LeftIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 intakeState(intakeState);
                 slideAtZero = true;
             }
+
             //wait until top slide moves more than 4 inches out before it can trigger the sensor again
             if (slideAtZero && lift.SlidePositionIN > 4 && !slideSensor)
                 slideAtZero = false;
             telemetry.addData("slideAtZero", slideAtZero);
 
-            //add manual override for top slide in case if automation fails or small adjustment is needed
             if (gamepad2.left_bumper) {
                 CapStoneLift.setPosition(Range.clip(Range.scale(gamepad2.right_stick_y, -1.0, 1.0, .2, .8), .35, .8));
             } else if (capstoneState == 0) {
@@ -447,7 +471,21 @@ public class notSure extends LinearOpMode {
 //            }
 //
 
-
+            packet.put("Lift Position IN", lift.LiftPositionIN);
+            packet.put("Lift Target IN (from PID controller)", Math.max(lift.leftLiftControl.getTargetPosition(), lift.rightLiftControl.getTargetPosition()) / lift.LiftTicksPerInch);
+            packet.put("Lift Target IN (from LiftManager2)", lift.liftTargetIN);
+            packet.put("Lift Obstruction?", lift.liftObstruction);
+            packet.put("TopSlide Position IN", lift.SlidePositionIN);
+            packet.put("TopSlide Target IN (from PID controller)", lift.topSlideControl.getTargetPosition() / lift.SlideTicksPerInch);
+            packet.put("TopSlide Target IN (from LiftManager2)", lift.slideTargetIN);
+            packet.put("Slide Obstruction? ", lift.slideObstruction);
+            packet.put("IntakeState", intakeState);
+            packet.put("wrist collection request", wristCollectionRequest);
+            packet.put("Slide at zero? ", slideAtZero);
+            packet.put("Vexy's Power", lift.Elbow.getPosition());
+            packet.put("Left Lift Power", lift.LeftLift.getPower());
+            packet.put("Right Lift Power", lift.RightLift.getPower());
+            dashboard.sendTelemetryPacket(packet);
 
             telemetry.update();
 

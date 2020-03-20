@@ -10,7 +10,7 @@ import org.openftc.revextensions2.RevBulkData;
 
 
 // @Autonomous
-public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
+public class Red2SkystoneAuto extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
@@ -55,7 +55,7 @@ public class Red2SkystoneAuto extends LinearOpMode {     // Current Red Auto
 
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningRed);
         Position pos = scanAndWaitForStart.runOpMode(this);
         if (isStopRequested())

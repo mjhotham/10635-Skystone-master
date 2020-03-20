@@ -456,6 +456,13 @@ org/firstinspires/ftc/robotcore/external/navigation/Rotation.class
 org/firstinspires/ftc/robotcore/internal/system/AppUtil.class
 org/firstinspires/ftc/robotcore/internal/system/ClassFactoryImpl.class
 org/firstinspires/ftc/robotcore/internal/system/RobotApplication.class
+org/firstinspires/ftc/teamcode/Motors/GoBILDA5202_1150.class
+org/firstinspires/ftc/teamcode/Motors/GoBILDA5202_117.class
+org/firstinspires/ftc/teamcode/Motors/GoBILDA5202_223.class
+org/firstinspires/ftc/teamcode/Motors/GoBILDA5202_312.class
+org/firstinspires/ftc/teamcode/Motors/GoBILDA5202_435.class
+org/firstinspires/ftc/teamcode/Motors/NeveRestOrbital20.class
+org/firstinspires/ftc/teamcode/Motors/NeveRestOrbital3_7.class
 org/intellij/lang/annotations/Flow.class
 org/intellij/lang/annotations/Identifier.class
 org/intellij/lang/annotations/JdkConstants$AdjustableOrientation.class

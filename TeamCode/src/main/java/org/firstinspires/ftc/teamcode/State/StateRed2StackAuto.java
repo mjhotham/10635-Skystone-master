@@ -60,7 +60,7 @@ public class StateRed2StackAuto extends LinearOpMode {
         telemetry.update();
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
 
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
@@ -241,7 +241,7 @@ public class StateRed2StackAuto extends LinearOpMode {
         drive.RightAngle.setPosition(RobotConstants.RightAngleTapePositionAuto);
         drive.followTrajectory(drive.trajectoryBuilder().back(15).lineTo(new Vector2d(drive.getPoseEstimate().getX() + 20, drive.getPoseEstimate().getY() + 10), new ConstantInterpolator(Math.PI / 2)).build());
 
-        drive.Wrist.setPosition(drive.WristCollectionPosition);
+        drive.Wrist.setPosition(RobotConstants.WristCollectionPosition);
         lift.slideTargetIN = 0;
         lift.start(0);
         while (drive.isBusy() || lift.isBusy) {

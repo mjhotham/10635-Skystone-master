@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode.drive;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
-import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
+
+import org.firstinspires.ftc.teamcode.Motors.GoBILDA5202_435;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+
 
 /*
  * Constants shared between multiple drive types.
@@ -27,7 +29,7 @@ public class DriveConstants {
      * @DeviceProperties and @MotorType annotations.
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
+            MotorConfigurationType.getMotorType(GoBILDA5202_435.class);
 
     /*
      * Set the first flag appropriately. If using the built-in motor velocity PID, update
@@ -44,8 +46,8 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 1.96850;
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static final double WHEEL_RADIUS = 1.96850;
+    public static final double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 15.4;
 
     /*

@@ -60,7 +60,7 @@ public class Blue2SkystoneAuto extends LinearOpMode {     // Blue Stacking Auto
         telemetry.update();
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
         drive.LeftAngle.setPosition(RobotConstants.LeftAngleScanningBlue);

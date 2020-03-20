@@ -49,6 +49,7 @@ public class scanAndWaitForStart {
 
     //0 means skystone, 1 means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
+
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
@@ -64,8 +65,8 @@ public class scanAndWaitForStart {
     private static float[] rightPos = {6f / 8f + offsetX, 4f / 8f + offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
-    private static final int rows = 640;
-    private static final int cols = 480;
+//    private static final int rows = 640;
+//    private static final int cols = 480;
 
     public static Position runOpMode(LinearOpMode opmode) {
         /*

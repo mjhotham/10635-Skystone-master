@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.State;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.path.heading.LinearInterpolator;
 import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Position;
 import org.firstinspires.ftc.teamcode.RobotConstants;
@@ -20,7 +18,6 @@ public class StateRedSidebySideAuto extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
     LiftManager lift;
-
 
     Pose2d startPosition = new Pose2d(-64, 36, 0);
 
@@ -68,7 +65,7 @@ public class StateRedSidebySideAuto extends LinearOpMode {
         telemetry.update();
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.LeftIntake);
+        lift = new LiftManager(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         lift.reset();
         telemetry.addData("LiftManager Target Height IN", () -> lift.liftTargetIN);
         telemetry.addData("LiftManager Current Height", () -> lift.LiftPositionIN);
@@ -172,7 +169,7 @@ public class StateRedSidebySideAuto extends LinearOpMode {
             telemetry.update();
         }
 
-        drive.Gripper.setPosition(drive.GripperOpen);
+        drive.Gripper.setPosition(RobotConstants.GripperOpen);
 
         lift.start(10);
         while (lift.isBusy) {
@@ -228,13 +225,13 @@ public class StateRedSidebySideAuto extends LinearOpMode {
         lift.start(2.75);
         while (lift.isBusy)
             lift.update(drive.hub2.getBulkInputData());
-        drive.Gripper.setPosition(drive.GripperOpen);
+        drive.Gripper.setPosition(RobotConstants.GripperOpen);
 //        lift.start(10);
 //        while (lift.isBusy)
 //            lift.update(drive.hub2.getBulkInputData());
 
         //foundation alignment
-        drive.Wrist.setPosition(drive.WristCollectionPosition);
+        drive.Wrist.setPosition(RobotConstants.WristCollectionPosition);
         lift.liftTargetIN = 0;
         lift.slideTargetIN = 0;
         drive.followTrajectory(drive.trajectoryBuilder().lineTo(new Vector2d(getWhateverItIsCalled.getX(), getWhateverItIsCalled.getY()), new LinearInterpolator(drive.getPoseEstimate().getHeading(), getWhateverItIsCalled.getHeading() - drive.getPoseEstimate().getHeading())).build());

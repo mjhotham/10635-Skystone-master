@@ -6,13 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.RobotConfig2;
-import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized2;
+
+import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 
 @Autonomous(name = "Parking Autonomous")
 public class parkingAutonomous2 extends LinearOpMode {
-    RobotConfig2 robot = new RobotConfig2();
-    SampleMecanumDriveREVOptimized2 drive;
+    SampleMecanumDriveREVOptimized drive;
 
     int color = 1;
     int side = 1;
@@ -26,7 +25,7 @@ public class parkingAutonomous2 extends LinearOpMode {
         telemetry.addData(">","Initializing");
         telemetry.update();
 
-        drive = new SampleMecanumDriveREVOptimized2(hardwareMap);
+        drive = new SampleMecanumDriveREVOptimized(hardwareMap);
 
         while (!isStarted()) {  //use this for switching between red and blue sides
 

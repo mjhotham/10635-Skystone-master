@@ -36,7 +36,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  * Base class with shared functionality for sample tank drives. All hardware-specific details are
  * handled in subclasses.
  */
-@Config
+// @Config
 public abstract class SampleTankDriveBase extends TankDrive {
     public static PIDCoefficients AXIAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients CROSS_TRACK_PID = new PIDCoefficients(0, 0, 0);
