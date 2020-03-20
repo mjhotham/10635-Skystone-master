@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimized;
 import org.openftc.revextensions2.RevBulkData;
 
-import org.firstinspires.ftc.teamcode.worlds.LiftManager2;
+import org.firstinspires.ftc.teamcode.worlds.LiftManager2_1;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -23,7 +23,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 public class notSure extends LinearOpMode {
 
     SampleMecanumDriveREVOptimized drive;
-    LiftManager2 lift;
+    LiftManager2_1 lift;
 
     void openIntake() {
         drive.LeftIntake.setPower(0);
@@ -134,7 +134,7 @@ public class notSure extends LinearOpMode {
         TelemetryPacket packet = new TelemetryPacket();
 
         drive = new SampleMecanumDriveREVOptimized(hardwareMap);
-        lift = new LiftManager2(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
+        lift = new LiftManager2_1(drive.LeftLift, drive.RightLift, drive.Elbow, drive.Elbow2, drive.LeftIntake);
         intakeState(intakeState);
 
         TapeDist = hardwareMap.get(DistanceSensor.class, "TapeColorDist");
@@ -213,7 +213,7 @@ public class notSure extends LinearOpMode {
 
 
             // code for manual lift movement
-            triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.2 : 1));
+            triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.2 : 1));     // might unsquare becasue of addition of slow mode
 
             if (triggerSum > 0.1 && intakeState == 2) {
                 intakeState = 3;

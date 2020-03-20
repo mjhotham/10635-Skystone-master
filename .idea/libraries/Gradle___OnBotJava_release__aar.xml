@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: :OnBotJava-release:@aar">
     <CLASSES>
-      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/a3e664add683968f5a6bbe097785eec0/OnBotJava-release/jars/classes.jar!/" />
-      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/a3e664add683968f5a6bbe097785eec0/OnBotJava-release/res" />
-      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/a3e664add683968f5a6bbe097785eec0/OnBotJava-release/jars/libs/javac.jar!/" />
+      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/5e4c76be11448006fdef3cd544e7e8d6/OnBotJava-release/jars/classes.jar!/" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/5e4c76be11448006fdef3cd544e7e8d6/OnBotJava-release/res" />
+      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/5e4c76be11448006fdef3cd544e7e8d6/OnBotJava-release/jars/libs/javac.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

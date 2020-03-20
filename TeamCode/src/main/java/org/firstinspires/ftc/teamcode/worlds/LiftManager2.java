@@ -45,8 +45,8 @@ public class LiftManager2 {
     double SlidePower;
 
     //tuning this will be a process
-    public static PIDCoefficients liftCoefficients = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients topSlideCoefficients = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients liftCoefficients = new PIDCoefficients(0.2, 0, 0);          // starting point for tuning
+    public static PIDCoefficients topSlideCoefficients = new PIDCoefficients(0.3, 0, 0);      // starting point for tuning
 
     public PIDFController leftLiftControl = new PIDFController(liftCoefficients);
     public PIDFController rightLiftControl = new PIDFController(liftCoefficients);

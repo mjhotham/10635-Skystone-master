@@ -21,22 +21,22 @@ public class RobotConstants {
 
   public static final double LiftMotorTicksPerRotationofOuputShaft = 386.3;
 
-    public static final double DriveTrainTicksPerRotation = 386.3;
+//  public static final double DriveTrainTicksPerRotation = 386.3;
 
-    public static final double TopslideTicksPerRotation = 360;
+  public static final double TopslideTicksPerRotation = 360;
 
-    public static final double LiftSpoolDiameterIN = 1.25;
+  public static final double LiftSpoolDiameterIN = 1.25;
 
-    public static final double TopslideSpoolDiameterIN = 1.496;    // 38 mm
+  public static final double TopslideSpoolDiameterIN = 1.496;    // 38 mm
 
-//  public static final double TopSlideMinMovementHeight = 8; // Placeholder Value
+  public static final double TopSlideMinMovementHeight = 6.5;
 
     // For TELEOP
 
 
-    public static final double WristCollectionPosition = .08;            // Dpad_Down
-    public static final double WristFrontDepositPosition = .68;         // Y
-    public static final double WristRightDepositPosition = .38;          // X
+  public static final double WristCollectionPosition = .08;            // Dpad_Down
+  public static final double WristFrontDepositPosition = .68;         // Y
+  public static final double WristRightDepositPosition = .38;          // X
 
   public static final double LeftHookDisengaged = .42;
   public static final double LeftHookEngaged = .1;
@@ -56,23 +56,23 @@ public class RobotConstants {
   public static final double RightAngleIntake = Range.scale(1580, 500, 2500, 0, 1);
   public static final double RightAngleGripped = Range.scale(1653, 500, 2500, 0, 1);
 
-    public static final double RightAngleTapePosition = Range.scale(1460, 500, 2500, 0, 1);        // makes the tape stick out as straight as possible
+  public static final double RightAngleTapePosition = Range.scale(1460, 500, 2500, 0, 1);        // makes the tape stick out as straight as possible
 
-    public static final double GripperOpen = .63;
-    public static final double GripperClosed = .3;
+  public static final double GripperOpen = .63;
+  public static final double GripperClosed = .3;
 
   public static final double WristOverRideSpeed = .002;
 
   public static final double YTopSlideTarget = 15.8;                  // Y
   public static final double XTopSlideTarget = 15.6;                  // X
 
-    public static final double TopSlideCapstonePickupPositionIN = 9.5;
+  public static final double TopSlideCapstonePickupPositionIN = 9.5;
 
 //  public static final double LiftCapstonePickupHeight = 8;  // placeholder value
 
-    public static final double OutTakePower = -.18;
+  public static final double OutTakePower = -.18;
 
-    public static final double TeleIntakePower = .5;
+  public static final double TeleIntakePower = .5;
 
   public static final double TeleHoldingPower = .05;
 
@@ -97,22 +97,22 @@ public class RobotConstants {
 
     // these are unlikely to be different from the TeleOp values but they are here just in case they need adjustment specific to auto
 
-    public static final double GripperOpenAuto = GripperOpen;
-    public static final double GripperClosedAuto = GripperClosed;
+  public static final double GripperOpenAuto = GripperOpen;
+  public static final double GripperClosedAuto = GripperClosed;
 
-    public static final double WristCollectionPositionAuto = WristCollectionPosition;
-    public static final double WristDepositPositionAuto = WristFrontDepositPosition;
+  public static final double WristCollectionPositionAuto = WristCollectionPosition;
+  public static final double WristDepositPositionAuto = WristFrontDepositPosition;
 
-    public static final double LeftHookDisengagedAuto = LeftHookDisengaged;
-    public static final double LeftHookEngagedAuto = LeftHookEngaged;
+  public static final double LeftHookDisengagedAuto = LeftHookDisengaged;
+  public static final double LeftHookEngagedAuto = LeftHookEngaged;
 
-    public static final double RightHookDisengagedAuto = RightHookDisengaged;
-    public static final double RightHookEngagedAuto = RightHookEngaged;
+  public static final double RightHookDisengagedAuto = RightHookDisengaged;
+  public static final double RightHookEngagedAuto = RightHookEngaged;
 
   public static final double LeftAngleGrippedAuto = Range.scale(1122, 500, 2500, 0, 1);
-    public static final double LeftAngleOpenAuto = LeftAngleOpen;
+  public static final double LeftAngleOpenAuto = LeftAngleOpen;
 
-    public static final double RightAngleOpenAuto = RightAngleOpen;
+  public static final double RightAngleOpenAuto = RightAngleOpen;
   public static final double RightAngleGrippedAuto = Range.scale(1633, 500, 2500, 0, 1);
   public static final double RightAngleTapePositionAuto = Range.scale(1460, 500, 2500, 0, 1);          // makes the tape stick out as straight as possible
 
@@ -125,8 +125,8 @@ public class RobotConstants {
 
   // would only change these to improve the intaking of the skystones
 
-    public static final double LeftAngleIntakeRed = LeftAngleIntake;
-    public static final double RightAngleIntakeRed = RightAngleIntake;
+  public static final double LeftAngleIntakeRed = LeftAngleIntake;
+  public static final double RightAngleIntakeRed = RightAngleIntake;
 
 
 
@@ -137,8 +137,8 @@ public class RobotConstants {
 
   // would only change these to improve the intaking of the skystones
 
-    public static final double LeftAngleIntakeBlue = LeftAngleIntake;
-    public static final double RightAngleIntakeBlue = RightAngleIntake;
+  public static final double LeftAngleIntakeBlue = LeftAngleIntake;
+  public static final double RightAngleIntakeBlue = RightAngleIntake;
 
 
 }

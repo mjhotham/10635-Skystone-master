@@ -25,7 +25,6 @@ public class LiftManager2_1 {
     public boolean isBusy = false;
     public double liftPower = 1;
 
-
     public double LiftTicksPerInch = RobotConstants.LiftMotorTicksPerRotationofOuputShaft / (RobotConstants.LiftSpoolDiameterIN * Math.PI);
     public double SlideTicksPerInch = RobotConstants.TopslideTicksPerRotation / (RobotConstants.TopslideSpoolDiameterIN * Math.PI);
 
@@ -48,8 +47,8 @@ public class LiftManager2_1 {
     double PreviousSlideTarget;
 
     //tuning this will be a process
-    public static PIDCoefficients liftCoefficients = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients topSlideCoefficients = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients liftCoefficients = new PIDCoefficients(0.2, 0, 0);          // starting point for tuning
+    public static PIDCoefficients topSlideCoefficients = new PIDCoefficients(0.3, 0, 0);      // starting point for tuning
 
     public PIDFController leftLiftControl = new PIDFController(liftCoefficients);
     public PIDFController rightLiftControl = new PIDFController(liftCoefficients);
@@ -121,7 +120,6 @@ public class LiftManager2_1 {
     }
 
     ElapsedTime smoothnessTimer = new ElapsedTime();
-    ElapsedTime smoothnessTimerSlide = new ElapsedTime();
 
     public void update(RevBulkData bulkData2, double triggerSum, boolean override, boolean slideOverride, float tilt) {    // override should really be changed to encReset
 
@@ -131,9 +129,8 @@ public class LiftManager2_1 {
         LiftPositionIN = Math.max(leftLiftPositionIN, rightLiftPositionIN);
         SlidePositionIN = bulkData2.getMotorCurrentPosition(SlideEncoder) / SlideTicksPerInch;
 
-        slideObstruction = LiftPositionIN < 6.5;
-        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
-//        int LiftTarget = (int) Math.round(liftTargetIN * LiftTicksPerInch);
+        slideObstruction = LiftPositionIN < RobotConstants.TopSlideMinMovementHeight;
+        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);   // don't think this is right, I will fix it when I wake up again later this afternoon
 
         if (override) {
 
@@ -200,9 +197,9 @@ public class LiftManager2_1 {
             PreviousSlideOverride = true;
             slideTargetIN = SlidePositionIN;
             PreviousSlideTarget = slideTargetIN;
-            topSlideControl.reset();
+            topSlideControl.reset();  // havent tested with an i or d value so not sure if this is needed or not
 
-        } else if (liftObstruction) {   // manual override should override liftobstruction for when shit hits the fan
+        } else if (slideObstruction) {   // manual override should override slideobstruction for when shit hits the fan
 
             Elbow.setPosition(.5);
             Elbow2.setPosition(.5);
@@ -210,9 +207,13 @@ public class LiftManager2_1 {
 
         } else if (PreviousSlideOverride) {
 
+            Elbow.setPosition(.5);
+            Elbow2.setPosition(.5);
+
             if (slideTargetIN != PreviousSlideTarget) {
                 PreviousSlideOverride = false;
-                if (triggerSum > -.1) {
+
+                if (triggerSum > -.1) {   // this code only runs for the first loop after a new target has been set, im not sure if it is even possible for it to run based on how notsure is but if does run, starts the lift one loop sooner
                     topSlideControl.setTargetPosition(slideTargetIN);
                     SlidePower = topSlideControl.update(SlidePositionIN);
                     Elbow.setPosition(Range.scale(SlidePower, -1, 1, 0.2, 0.8));
