@@ -178,10 +178,12 @@ public class notSure extends LinearOpMode {
 
             RevBulkData bulkData2 = drive.hub2.getBulkInputData();
 
+            RevBulkData bulkData = drive.hub.getBulkInputData();
+
 
             // code for controlling Tape
-            if (JustStarted){
-                if(gamepad2.right_trigger <= .01) {
+            if (JustStarted) {
+                if (gamepad2.right_trigger <= .01) {
                     if (TapeDist.getDistance(DistanceUnit.CM) > 6) {
                         drive.Tape.setPosition(.5);
                         JustStarted = false;
@@ -215,8 +217,8 @@ public class notSure extends LinearOpMode {
             // code for manual lift movement
             triggerSum = (gamepad1.right_trigger * Math.abs(gamepad1.right_trigger)) - ((Math.abs(gamepad1.left_trigger) * gamepad1.left_trigger) * (slowMode ? 0.2 : 1));     // might unsquare becasue of addition of slow mode
 
-            if (triggerSum > 0.1 && intakeState == 2) {
-                intakeState = 3;
+            if (triggerSum > 0.1 && intakeState == 2) {  // if lift manually moved up while angles gripped
+                intakeState = 3;  //ungrip angles
                 intakeState(intakeState);
             }
 
@@ -234,7 +236,7 @@ public class notSure extends LinearOpMode {
 
                 if (gamepad1.right_bumper) {
                     if (!previousRightBumper) {
-                        intakeState = intakeState == 1 ? 2 : 1;//intake or wheel gripped
+                        intakeState = intakeState == 1 ? 2 : 1; //intake or wheel gripped
                         drive.Wrist.setPosition(RobotConstants.WristCollectionPosition);
                         intakeState(intakeState);
                     }
@@ -278,7 +280,7 @@ public class notSure extends LinearOpMode {
             }
 
             if (gamepad1.dpad_down) {
-                intakeState = 0;
+                intakeState = 0; // open intake
                 intakeState(intakeState);
                 lift.slideTargetIN = 0;
                 lift.liftTargetIN = 0;
@@ -286,29 +288,29 @@ public class notSure extends LinearOpMode {
             }
 
             if (gamepad1.x) {
+                drive.Gripper.setPosition(RobotConstants.GripperClosed);
                 wristRequestedPosition = RobotConstants.WristRightDepositPosition;
                 lift.slideTargetIN = RobotConstants.XTopSlideTarget;
                 if (lift.liftTargetIN < 8) {
                     lift.liftTargetIN = 8;
                 }
-                drive.Gripper.setPosition(RobotConstants.GripperClosed);
-                intakeState = 3;
+                intakeState = 3;  // open intake
                 intakeState(intakeState);
             }
 
             if (gamepad1.y) {
+                drive.Gripper.setPosition(RobotConstants.GripperClosed);
                 wristRequestedPosition = RobotConstants.WristFrontDepositPosition;
                 lift.slideTargetIN = RobotConstants.YTopSlideTarget;
                 if (lift.liftTargetIN < 8) {
                     lift.liftTargetIN = 8;
                 }
-                drive.Gripper.setPosition(RobotConstants.GripperClosed);
-                intakeState = 3;
+                intakeState = 3;  // open intake
                 intakeState(intakeState);
             }
 
 
-            if (intakeState == 1){
+            if (intakeState == 1) {  // intake sensor code
                 if (drive.IntakeDist.getDistance(DistanceUnit.CM) < 6) {
                     intakeState = 2;
                     intakeState(intakeState);
@@ -372,6 +374,7 @@ public class notSure extends LinearOpMode {
                 wristCollectionRequest = false;
             }
 
+
             //toggle hooks
             if (gamepad1.dpad_up) {
                 if (!previousDpadUp) {
@@ -417,7 +420,7 @@ public class notSure extends LinearOpMode {
             drive.setMotorPowers(forward + spin + right, forward + spin - right, forward - spin + right, forward - spin - right);
 
             //top slide encoder reset code
-            slideSensor = !bulkData2.getDigitalInputState(zeroSwitch);
+            slideSensor = !bulkData.getDigitalInputState(zeroSwitch);
             if (!slideAtZero && slideSensor) {
                 drive.Elbow.setPosition(0.5);
                 drive.Elbow2.setPosition(0.5);
@@ -472,15 +475,16 @@ public class notSure extends LinearOpMode {
 //
 
             packet.put("Lift Position IN", lift.LiftPositionIN);
-            packet.put("Lift Target IN (from PID controller)", Math.max(lift.leftLiftControl.getTargetPosition(), lift.rightLiftControl.getTargetPosition()) / lift.LiftTicksPerInch);
+            packet.put("Lift Target IN (from PID controller)", Math.max(lift.leftLiftControl.getTargetPosition(), lift.rightLiftControl.getTargetPosition()));
             packet.put("Lift Target IN (from LiftManager2)", lift.liftTargetIN);
             packet.put("Lift Obstruction?", lift.liftObstruction);
             packet.put("TopSlide Position IN", lift.SlidePositionIN);
-            packet.put("TopSlide Target IN (from PID controller)", lift.topSlideControl.getTargetPosition() / lift.SlideTicksPerInch);
+            packet.put("TopSlide Target IN (from PID controller)", lift.topSlideControl.getTargetPosition());
             packet.put("TopSlide Target IN (from LiftManager2)", lift.slideTargetIN);
             packet.put("Slide Obstruction? ", lift.slideObstruction);
             packet.put("IntakeState", intakeState);
             packet.put("wrist collection request", wristCollectionRequest);
+            packet.put("Wrist Position", drive.Wrist.getPosition());  // wrist is acting fishy, need telemetry to daignose fishiness
             packet.put("Slide at zero? ", slideAtZero);
             packet.put("Vexy's Power", lift.Elbow.getPosition());
             packet.put("Left Lift Power", lift.LeftLift.getPower());

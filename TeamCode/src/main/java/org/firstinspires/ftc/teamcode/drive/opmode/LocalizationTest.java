@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.drive.mecanum.SampleMecanumDriveREVOptimiz
  */
 @Config
 @TeleOp(group = "drive")
-@Disabled
+// @Disabled
 public class LocalizationTest extends LinearOpMode {
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -32,7 +32,7 @@ public class LocalizationTest extends LinearOpMode {
 
         SampleMecanumDriveBase drive = new SampleMecanumDriveREVOptimized(hardwareMap);
 
-        drive.setPoseEstimate(new Pose2d(-63.5, 39, 0));
+        drive.setPoseEstimate(new Pose2d(0, 0, 0));
         waitForStart();
 
         while (!isStopRequested()) {

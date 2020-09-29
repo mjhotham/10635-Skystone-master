@@ -46,6 +46,9 @@ public class LiftManager2_1 {
 
     double PreviousSlideTarget;
 
+    boolean FriggenEdgeCase;
+
+
     //tuning this will be a process
     public static PIDCoefficients liftCoefficients = new PIDCoefficients(0.2, 0, 0);          // starting point for tuning
     public static PIDCoefficients topSlideCoefficients = new PIDCoefficients(0.3, 0, 0);      // starting point for tuning
@@ -130,7 +133,10 @@ public class LiftManager2_1 {
         SlidePositionIN = bulkData2.getMotorCurrentPosition(SlideEncoder) / SlideTicksPerInch;
 
         slideObstruction = LiftPositionIN < RobotConstants.TopSlideMinMovementHeight;
-        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);   // don't think this is right, I will fix it when I wake up again later this afternoon
+
+        liftObstruction = slideObstruction && SlidePositionIN > 2.5 && SlidePositionIN < 12;
+
+//        liftObstruction = Math.abs(SlidePositionIN - slideTargetIN) > (slideObstruction ? 3 : 1);
 
         if (override) {
 
@@ -152,6 +158,13 @@ public class LiftManager2_1 {
             }
 
         } else {
+
+//            if(slideTargetIN < 12 && LiftPositionIN < RobotConstants.TopSlideMinMovementHeight && SlidePositionIN > 12){
+//                slideObstruction = true;
+//                liftTargetIN = 8;
+//            } else if(slideTargetIN < 12 && LiftPositionIN > RobotConstants.TopSlideMinMovementHeight - .2 && SlidePositionIN < 1){
+//                liftTargetIN = 0;
+//            }
 
             if (Math.abs(triggerSum) > 0.1) {
 
@@ -201,9 +214,11 @@ public class LiftManager2_1 {
 
         } else if (slideObstruction) {   // manual override should override slideobstruction for when shit hits the fan
 
+            topSlideControl.setTargetPosition(SlidePositionIN);
+            topSlideControl.update(SlidePositionIN);
+            topSlideControl.reset();
             Elbow.setPosition(.5);
             Elbow2.setPosition(.5);
-            topSlideControl.reset();
 
         } else if (PreviousSlideOverride) {
 
@@ -214,6 +229,7 @@ public class LiftManager2_1 {
                 PreviousSlideOverride = false;
 
                 if (triggerSum > -.1) {   // this code only runs for the first loop after a new target has been set, im not sure if it is even possible for it to run based on how notsure is but if does run, starts the lift one loop sooner
+
                     topSlideControl.setTargetPosition(slideTargetIN);
                     SlidePower = topSlideControl.update(SlidePositionIN);
                     Elbow.setPosition(Range.scale(SlidePower, -1, 1, 0.2, 0.8));

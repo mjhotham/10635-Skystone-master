@@ -1,8 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: :Blocks-release:@aar">
     <CLASSES>
-      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/50a4edc733b0e1d57c2adff8419334dc/Blocks-release/jars/classes.jar!/" />
-      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/50a4edc733b0e1d57c2adff8419334dc/Blocks-release/res" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/7abc3b40f16e3248c22bb97295a47c1d/Blocks-release/AndroidManifest.xml" />
+      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/7abc3b40f16e3248c22bb97295a47c1d/Blocks-release/jars/classes.jar!/" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/7abc3b40f16e3248c22bb97295a47c1d/Blocks-release/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

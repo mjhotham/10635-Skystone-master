@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
+import org.firstinspires.ftc.teamcode.drive.localizer.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
@@ -99,15 +100,17 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
 
         // TODO: reverse any motors using DcMotor.setDirection()
         LeftLift.setTargetPosition(LeftLift.getCurrentPosition());
-        LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LeftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);  // change this to get more power?
         RightLift.setTargetPosition(RightLift.getCurrentPosition());
         RightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         LeftIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         RightIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         LeftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LeftLift.setDirection(DcMotor.Direction.REVERSE);
+
         LeftIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -116,6 +119,13 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
         leftRear.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
+
+
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         Gripper = hardwareMap.get(ExpansionHubServo.class, "Gripper");
         Wrist = hardwareMap.get(ExpansionHubServo.class, "Wrist");
@@ -142,7 +152,9 @@ public class SampleMecanumDriveREVOptimized extends SampleMecanumDriveBase {
 //        LeftAngle.setPwmDisable();
 
         // TODO: if desired, use setLocalizer() to change the localization method
-//        setLocalizer(new MecanumLocalizer(this, true));
+
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
     }
 

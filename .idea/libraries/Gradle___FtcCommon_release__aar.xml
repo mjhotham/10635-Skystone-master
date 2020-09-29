@@ -1,8 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: :FtcCommon-release:@aar">
     <CLASSES>
-      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/3e6a1de44b5c77754fed80b4a0dc3d9d/FtcCommon-release/jars/classes.jar!/" />
-      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/3e6a1de44b5c77754fed80b4a0dc3d9d/FtcCommon-release/res" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/860b49957d438b6c869d1f2a41fa8b52/FtcCommon-release/AndroidManifest.xml" />
+      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/860b49957d438b6c869d1f2a41fa8b52/FtcCommon-release/jars/classes.jar!/" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/860b49957d438b6c869d1f2a41fa8b52/FtcCommon-release/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

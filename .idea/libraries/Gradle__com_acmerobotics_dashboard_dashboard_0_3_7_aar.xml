@@ -1,8 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.acmerobotics.dashboard:dashboard:0.3.7@aar">
     <CLASSES>
-      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/f5a7262fb39698a4096dcf24d3a57f33/dashboard-0.3.7/jars/classes.jar!/" />
-      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/f5a7262fb39698a4096dcf24d3a57f33/dashboard-0.3.7/res" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/8fe6da2381435d725b5e116cca26dfb7/dashboard-0.3.7/AndroidManifest.xml" />
+      <root url="jar://D:/AndroidSDK/caches/transforms-2/files-2.1/8fe6da2381435d725b5e116cca26dfb7/dashboard-0.3.7/jars/classes.jar!/" />
+      <root url="file://D:/AndroidSDK/caches/transforms-2/files-2.1/8fe6da2381435d725b5e116cca26dfb7/dashboard-0.3.7/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://D:/AndroidSDK/caches/modules-2/files-2.1/com.acmerobotics.dashboard/dashboard/0.3.7/d67e10eb8232fa120ae5907320a4342e36a5b18d/dashboard-0.3.7-javadoc.jar!/" />

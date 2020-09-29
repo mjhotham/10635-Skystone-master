@@ -8,7 +8,7 @@
 8    <uses-sdk
 9        android:minSdkVersion="19"
 9-->C:\Users\Matthew\Downloads\10635-Skystone-master\10635-Skystone-master\FtcRobotController\src\main\AndroidManifest.xml
-10        android:targetSdkVersion="26" />
+10        android:targetSdkVersion="25" />
 10-->C:\Users\Matthew\Downloads\10635-Skystone-master\10635-Skystone-master\FtcRobotController\src\main\AndroidManifest.xml
 11
 12    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
